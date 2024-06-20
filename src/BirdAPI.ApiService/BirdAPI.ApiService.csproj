@@ -10,4 +10,12 @@
     <ProjectReference Include="..\BirdAPI.ServiceDefaults\BirdAPI.ServiceDefaults.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Neo4j.Berries.OGM" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Database\Configurations\" />
+  </ItemGroup>
+
 </Project>
