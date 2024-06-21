@@ -6,6 +6,6 @@ namespace BirdAPI.ApiService.Database;
 
 public class ApplicationGraphContext(Neo4jOptions options) : GraphContext(options)
 {
-    public NodeSet<Recording> Recordings { get; set; }
-    public NodeSet<User> Users { get; set; }
-}
+    public NodeSet<Recording> Recordings { get; private set; }
+    public NodeSet<User> Users { get; private set; }
+} 

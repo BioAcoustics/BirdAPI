@@ -10,6 +10,9 @@ builder.AddServiceDefaults();
 // Add services to the container.
 builder.Services.AddProblemDetails();
 builder.Services.AddControllers(); // Diese Zeile registriert alle Controller
+builder.Services.AddMediatR(cfg => {
+    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+});
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "BirdAPI.ApiService", Version = "v1" });
@@ -19,10 +22,18 @@ builder.Services.AddNeo4j<ApplicationGraphContext>(builder.Configuration, option
 {
     options
         .ConfigureFromAssemblies(typeof(Program).Assembly);
-    options.EnforceIdentifiers = true;
+    options.EnforceIdentifiers = false;
 });
 
 var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
