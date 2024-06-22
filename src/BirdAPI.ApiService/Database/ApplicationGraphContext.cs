@@ -8,4 +8,5 @@ public class ApplicationGraphContext(Neo4jOptions options) : GraphContext(option
 {
     public NodeSet<Recording> Recordings { get; private set; }
     public NodeSet<User> Users { get; private set; }
+    public NodeSet<XenoCantoEntry> XenoCantoEntries { get; private set; }
 } 

@@ -1,3 +1,4 @@
+using BirdAPI.ApiService.BackgroundServices;
 using BirdAPI.ApiService.Database;
 using Neo4j.Berries.OGM;
 using BirdAPI.ApiService.Controllers; // Stellen Sie sicher, dass der Namespace korrekt importiert wird
@@ -17,6 +18,8 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "BirdAPI.ApiService", Version = "v1" });
 });
+builder.Services.AddHttpClient();
+builder.Services.AddHostedService<XenoCantoFetcher>();
 
 builder.Services.AddNeo4j<ApplicationGraphContext>(builder.Configuration, options =>
 {

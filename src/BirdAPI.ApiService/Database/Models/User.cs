@@ -1,10 +1,18 @@
+using BirdAPI.ApiService.Commands;
 using Microsoft.AspNetCore.SignalR;
 
 namespace BirdAPI.ApiService.Database.Models;
 
 public class User
 {
-    
-    public Guid Id { get; set; }
+    public User(AddUserCommand request)
+    {
+        Id = Guid.NewGuid();
+        Name = request.Name;
+    }
+
+    public User(){ }
+   
+    public Guid Id { get; set; } = Guid.NewGuid();
     public string Name { get; set; }
 }

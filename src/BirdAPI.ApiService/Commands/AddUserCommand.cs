@@ -12,11 +12,7 @@ public class AddUserCommand : IRequest<Guid>
     {
         public async Task<Guid> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
-            var user = new User
-            {
-                Id = Guid.NewGuid(),
-                Name = request.Name
-            };
+            var user = new User(request);
 
             context.Users.Add(user);
             await context.SaveChangesAsync();

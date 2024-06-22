@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using BirdAPI.ApiService.Database;
+﻿using BirdAPI.ApiService.Database;
 using BirdAPI.ApiService.Database.Models;
 using Bogus;
 using MediatR;
