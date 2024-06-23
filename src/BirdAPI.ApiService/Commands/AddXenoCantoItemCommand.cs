@@ -11,7 +11,17 @@ public class AddXenoCantoItemCommand :  IRequest<Guid>
     {
         public async Task<Guid> Handle(AddXenoCantoItemCommand request, CancellationToken cancellationToken)
         {
-            context.XenoCantoEntries.AddRange(request.XenoCantoEntries);
+            // loop through the list of XenoCantoEntries and show the "also" property if it is not empty
+            foreach (var entry in request.XenoCantoEntries)
+            {
+                if (entry.also.Any())
+                {
+                    Console.WriteLine($"sonoLarge: {entry.sonoLarge}");
+                }
+            }
+            
+            
+            context.XenoCantoEntries.AddRange(request.XenoCantoEntries); 
             await context.SaveChangesAsync();
             
             return Guid.NewGuid();

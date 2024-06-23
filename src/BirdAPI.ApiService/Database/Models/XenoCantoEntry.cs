@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 public class XenoCantoResponse
 {
@@ -31,6 +32,27 @@ public class XenoCantoEntry
     public string file { get; set; }
     public string fileName { get; set; }
     //public Sono sono { get; set; }
+    [JsonPropertyName("sono.small")]
+    public string sonoSmall { get; set; }
+    
+    [JsonPropertyName("sono.med")]
+    public string sonoMed { get; set; }
+    
+    [JsonPropertyName("sono.large")]
+    public string sonoLarge { get; set; }
+    
+    [JsonPropertyName("sono.full")]
+    public string sonoFull { get; set; }
+    
+    [JsonPropertyName("osci.small")]
+    public string osciSmall { get; set; }
+    
+    [JsonPropertyName("osci.med")]
+    public string osciMed { get; set; }
+    
+    [JsonPropertyName("osci.large")]
+    public string osciLarge { get; set; }
+    
     //public Osci osci { get; set; }
     public string lic { get; set; }
     public string q { get; set; }

@@ -18,7 +18,7 @@ namespace BirdAPI.ApiService.BackgroundServices
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
         private const string BaseUrl = "https://xeno-canto.org/api/2/recordings?query=q:";
         private const string ProgressFilePath = "fetchProgress.json";
-        private FetchProgress _progress;
+        private readonly FetchProgress _progress;
         private readonly IMediator _mediator;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
@@ -41,7 +41,7 @@ namespace BirdAPI.ApiService.BackgroundServices
             using var periodicTimer = new PeriodicTimer(TimeSpan.FromMinutes(10));
             _ = PeriodicSaveAsync(periodicTimer, stoppingToken);
 
-            char[] qualityRatings = { 'a', 'b', 'c', 'd', 'e' };
+            char[] qualityRatings = ['a', 'b', 'c', 'd', 'e'];
 
             foreach (var quality in qualityRatings)
             {
@@ -142,7 +142,11 @@ namespace BirdAPI.ApiService.BackgroundServices
 
     public class XenoCantoResponse
     {
-        public int numPages { get; set; }
-        public List<XenoCantoEntry> recordings { get; set; }
+        public string numRecordings { get; init; }
+        public string numSpecies { get; init; }
+        public int numPages { get; init; }
+        public int page { get; init; }
+        
+        public List<XenoCantoEntry> recordings { get; init; }
     }
 }
