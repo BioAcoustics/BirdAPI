@@ -1,0 +1,72 @@
+@startuml
+Title Beispiel JSON response von XenoCanto Api\n(https://xeno-canto.org/api/2/recordings?query=cnt:brazil&page=1)
+
+
+'skinparam wrapWidth 800
+
+label B [
+{{json
+{
+  "numRecordings": "69729",
+  "numSpecies": "1736",
+  "page": 1,
+  "numPages": 140,
+  "recordings": [
+    {
+      "id": "754598",
+      "gen": "Pyriglena",
+      "sp": "similis",
+      "ssp": "",
+      "group": "birds",
+      "en": "Tapajos Fire-eye",
+      "rec": "JAYRSON ARAUJO DE OLIVEIRA",
+      "cnt": "Brazil",
+      "loc": "Sinop, Cascalheiras - Mato Grosso",
+      "lat": "-11.7519",
+      "lng": "-55.638",
+      "alt": "340",
+      "type": "Gesang",
+      "sex": "männlich",
+      "stage": "adult",
+      "method": "in the hand",
+      "url": "//xeno-canto.org/754598",
+      "file": "https://xeno-canto.org/754598/download",
+      "file-name": "XC754598-18-09-2022-8e21-Papa-taoca-do-tapajos.mp3",
+      "sono": {
+        "small": "//xeno-canto.org/sounds/uploaded/LXKLWEDKEM/ffts/XC754598-small.png",
+        "med": "//xeno-canto.org/sounds/uploaded/LXKLWEDKEM/ffts/XC754598-med.png",
+        "large": "//xeno-canto.org/sounds/uploaded/LXKLWEDKEM/ffts/XC754598-large.png",
+        "full": "//xeno-canto.org/sounds/uploaded/LXKLWEDKEM/ffts/XC754598-full.png"
+      },
+      "osci": {
+        "small": "//xeno-canto.org/sounds/uploaded/LXKLWEDKEM/wave/XC754598-small.png",
+        "med": "//xeno-canto.org/sounds/uploaded/LXKLWEDKEM/wave/XC754598-med.png",
+        "large": "//xeno-canto.org/sounds/uploaded/LXKLWEDKEM/wave/XC754598-large.png"
+      },
+      "lic": "//creativecommons.org/licenses/by-nc-sa/4.0/",
+      "q": "A",
+      "length": "0:20",
+      "time": "8:21",
+      "date": "2022-09-18",
+      "uploaded": "2022-10-08",
+      "also": ["Tangara chilensis", "...", "..."],
+      "rmk": "",
+      "bird-seen": "ja",
+      "animal-seen": "ja",
+      "playback-used": "ja",
+      "temp": "",
+      "regnr": "",
+      "auto": "nein",
+      "dvc": "Panasonic RRUS551",
+      "mic": "Embutido",
+      "smp": "44100"
+    },
+    {
+      "id": "754599",
+      "...": "..."
+      }
+  ]
+}
+}}
+]
+@enduml
