@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 public class XenoCantoResponse
@@ -12,69 +14,63 @@ public class XenoCantoResponse
 
 public class XenoCantoEntry
 {
+    [Key]
     public string id { get; set; }
-    public string gen { get; set; }
-    public string sp { get; set; }
-    public string ssp { get; set; }
-    public string group { get; set; }
-    public string en { get; set; }
-    public string rec { get; set; }
-    public string cnt { get; set; }
-    public string loc { get; set; }
-    public string lat { get; set; }
-    public string lng { get; set; }
-    public string alt { get; set; }
-    public string type { get; set; }
-    public string sex { get; set; }
-    public string stage { get; set; }
-    public string method { get; set; }
-    public string url { get; set; }
-    public string file { get; set; }
-    public string fileName { get; set; }
-    //public Sono sono { get; set; }
-    [JsonPropertyName("sono.small")]
-    public string sonoSmall { get; set; }
-    
-    [JsonPropertyName("sono.med")]
-    public string sonoMed { get; set; }
-    
-    [JsonPropertyName("sono.large")]
-    public string sonoLarge { get; set; }
-    
-    [JsonPropertyName("sono.full")]
-    public string sonoFull { get; set; }
-    
-    [JsonPropertyName("osci.small")]
-    public string osciSmall { get; set; }
-    
-    [JsonPropertyName("osci.med")]
-    public string osciMed { get; set; }
-    
-    [JsonPropertyName("osci.large")]
-    public string osciLarge { get; set; }
-    
-    //public Osci osci { get; set; }
-    public string lic { get; set; }
+    public string? gen { get; set; }
+    public string? sp { get; set; }
+    public string? ssp { get; set; }
+    public string? group { get; set; }
+    public string? en { get; set; }
+    public string? rec { get; set; }
+    public string? cnt { get; set; }
+    public string? lat { get; set; }
+    public string? loc { get; set; }
+    public string? lng { get; set; }
+    public string? alt { get; set; }
+    public string? type { get; set; }
+    public string? sex { get; set; }
+    public string? stage { get; set; }
+    public string? method { get; set; }
+    public string? url { get; set; }
+    public string? file { get; set; }
+    [JsonPropertyName("file-name")]
+    public string? fileName { get; set; }
+
+    [ForeignKey("SonoId")]
+    public Sono sono { get; set; }
+    public int SonoId { get; set; }
+
+    [ForeignKey("OsciId")]
+    public Osci osci { get; set; }
+    public int OsciId { get; set; }
+
+    public string? lic { get; set; }
     public string q { get; set; }
-    public string length { get; set; }
-    public string time { get; set; }
-    public string date { get; set; }
-    public string uploaded { get; set; }
-    public List<string> also { get; set; }
-    public string rmk { get; set; }
-    public string birdSeen { get; set; }
-    public string animalSeen { get; set; }
-    public string playbackUsed { get; set; }
-    public string temp { get; set; }
-    public string regnr { get; set; }
-    public string auto { get; set; }
-    public string dvc { get; set; }
-    public string mic { get; set; }
-    public string smp { get; set; }
+    public string? length { get; set; }
+    public string? time { get; set; }
+    public string? date { get; set; }
+    public string? uploaded { get; set; }
+    public List<string>? also { get; set; }
+    public string? rmk { get; set; }
+    
+    [JsonPropertyName("bird-seen")]
+    public string? birdSeen { get; set; }
+    [JsonPropertyName("animal-seen")]
+    public string? animalSeen { get; set; }
+    [JsonPropertyName("playback-used")]
+    public string? playbackUsed { get; set; }
+    public string? temp { get; set; }
+    public string? regnr { get; set; }
+    public string? auto { get; set; }
+    public string? dvc { get; set; }
+    public string? mic { get; set; }
+    public string? smp { get; set; }
 }
 
 public class Sono
 {
+    [Key]
+    public int Id { get; set; }
     public string small { get; set; }
     public string med { get; set; }
     public string large { get; set; }
@@ -83,6 +79,8 @@ public class Sono
 
 public class Osci
 {
+    [Key]
+    public int Id { get; set; }
     public string small { get; set; }
     public string med { get; set; }
     public string large { get; set; }

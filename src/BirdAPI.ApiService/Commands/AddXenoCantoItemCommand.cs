@@ -11,20 +11,42 @@ public class AddXenoCantoItemCommand :  IRequest<Guid>
     {
         public async Task<Guid> Handle(AddXenoCantoItemCommand request, CancellationToken cancellationToken)
         {
-            // loop through the list of XenoCantoEntries and show the "also" property if it is not empty
-            foreach (var entry in request.XenoCantoEntries)
+            try
             {
-                if (entry.also.Any())
+                // loop through the list of XenoCantoEntries and show the "also" property if it is not empty
+                foreach (var entry in request.XenoCantoEntries)
                 {
-                    Console.WriteLine($"sonoLarge: {entry.sonoLarge}");
+                    if (entry.also.Any())
+                    {
+                        // Console.WriteLine($"also: {entry.also}");
+                    }
                 }
+
+                context.XenoCantoEntries.AddRange(request.XenoCantoEntries);
+                await context.SaveChangesAsync();
+
+                return Guid.NewGuid();
             }
-            
-            
-            context.XenoCantoEntries.AddRange(request.XenoCantoEntries); 
-            await context.SaveChangesAsync();
-            
-            return Guid.NewGuid();
+            catch (Exception ex)
+            {
+                LogException(ex);
+                throw; // rethrow the exception after logging
+            }
         }
+
+        private void LogException(Exception ex)
+        {
+            // Log the current exception
+            Console.WriteLine($"Exception: {ex.Message}");
+            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+
+            // Recursively log inner exceptions
+            if (ex.InnerException != null)
+            {
+                Console.WriteLine("Inner Exception:");
+                LogException(ex.InnerException);
+            }
+        }
+
     }
 }

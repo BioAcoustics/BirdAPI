@@ -1,0 +1,17 @@
+= AsciiDoc Article Title
+Limitless Green <LimitlessGreen@outlook.de>
+3.0, July 29, 2022: AsciiDoc article template
+:toc:
+:icons: font
+:url-quickref: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
+
+
+== Anforderungen
+- Daten/Rufe von der XenoCanto API abholen
+- Daten in einer Datenbank speichern
+- Oberfläche (im Broswer?), wo ein Benutzer label über die Sonogramme ziehen kann
+
+== Anwendung
+- Benutzer möchte einen Vogelruf labeln
+- Benutzer ruft endpoint /label/{xenocanto_id} auf
+- Benutzer zieht label

@@ -22,8 +22,8 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddHttpClient();
 builder.Services.AddHostedService<XenoCantoFetcher>();
 
-builder.Services.AddDbContext<ApplicationDBContext>(options =>
-    options.UseInMemoryDatabase("InMemoryDb"));
+builder.Services.AddDbContext<ApplicationDBContext>();
+    
 
 var app = builder.Build();
 
