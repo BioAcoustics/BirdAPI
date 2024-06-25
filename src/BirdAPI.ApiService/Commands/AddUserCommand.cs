@@ -8,7 +8,7 @@ public class AddUserCommand : IRequest<Guid>
 {
     public String Name { get; set; }
 
-    public class CreateUserHandler(ApplicationGraphContext context) : IRequestHandler<AddUserCommand, Guid>
+    public class CreateUserHandler(ApplicationDBContext context) : IRequestHandler<AddUserCommand, Guid>
     {
         public async Task<Guid> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {

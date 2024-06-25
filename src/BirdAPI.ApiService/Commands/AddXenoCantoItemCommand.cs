@@ -7,7 +7,7 @@ public class AddXenoCantoItemCommand :  IRequest<Guid>
 {
     public List<XenoCantoEntry> XenoCantoEntries { get; set; }
     
-    public class AddXenoCantoItemHandler(ApplicationGraphContext context) : IRequestHandler<AddXenoCantoItemCommand, Guid>
+    public class AddXenoCantoItemHandler(ApplicationDBContext context) : IRequestHandler<AddXenoCantoItemCommand, Guid>
     {
         public async Task<Guid> Handle(AddXenoCantoItemCommand request, CancellationToken cancellationToken)
         {

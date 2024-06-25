@@ -9,7 +9,7 @@ public class AddFakeUsersCommand : IRequest<List<Guid>>
 {
     public Int32 Count { get; set; } = 10; // Default count is set to 10
     
-    public class AddFakeUsersHandler(ApplicationGraphContext context) : IRequestHandler<AddFakeUsersCommand, List<Guid>>
+    public class AddFakeUsersHandler(ApplicationDBContext context) : IRequestHandler<AddFakeUsersCommand, List<Guid>>
     {
         public async Task<List<Guid>> Handle(AddFakeUsersCommand request, CancellationToken cancellationToken)
         {
