@@ -1,4 +1,7 @@
-﻿using BirdAPI.ApiService.Database;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using BirdAPI.ApiService.Database;
 using BirdAPI.ApiService.Database.Models;
 using MediatR;
 
@@ -8,7 +11,7 @@ public class AddUserCommand : IRequest<Guid>
 {
     public String Name { get; set; }
 
-    public class CreateUserHandler(ApplicationDBContext context) : IRequestHandler<AddUserCommand, Guid>
+    public class CreateUserHandler(ApplicationDbContext context) : IRequestHandler<AddUserCommand, Guid>
     {
         public async Task<Guid> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {

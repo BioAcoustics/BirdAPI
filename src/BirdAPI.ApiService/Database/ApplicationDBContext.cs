@@ -1,16 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.IO;
+using Microsoft.EntityFrameworkCore;
 using BirdAPI.ApiService.Database.Models;
 
 namespace BirdAPI.ApiService.Database;
 
-public class ApplicationDBContext : DbContext
+public class ApplicationDbContext : DbContext
 {
     public DbSet<Recording> Recordings { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<XenoCantoEntry> XenoCantoEntries { get; set; }
     public string DbPath { get; }
     
-    public ApplicationDBContext()
+    public ApplicationDbContext()
     {
         var folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);

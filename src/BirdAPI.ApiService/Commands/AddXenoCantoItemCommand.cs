@@ -1,4 +1,10 @@
-﻿using BirdAPI.ApiService.Database;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using BirdAPI.ApiService.Database;
+using BirdAPI.ApiService.Database.Models;
 using MediatR;
 
 namespace BirdAPI.ApiService.Commands;
@@ -7,7 +13,7 @@ public class AddXenoCantoItemCommand :  IRequest<Guid>
 {
     public List<XenoCantoEntry> XenoCantoEntries { get; set; }
     
-    public class AddXenoCantoItemHandler(ApplicationDBContext context) : IRequestHandler<AddXenoCantoItemCommand, Guid>
+    public class AddXenoCantoItemHandler(ApplicationDbContext context) : IRequestHandler<AddXenoCantoItemCommand, Guid>
     {
         public async Task<Guid> Handle(AddXenoCantoItemCommand request, CancellationToken cancellationToken)
         {

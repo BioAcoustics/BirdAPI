@@ -1,5 +1,5 @@
+using System;
 using BirdAPI.ApiService.Commands;
-using Microsoft.AspNetCore.SignalR;
 
 namespace BirdAPI.ApiService.Database.Models;
 

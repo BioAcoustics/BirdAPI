@@ -3,10 +3,12 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
+namespace BirdAPI.ApiService.Database.Models;
+
 public class XenoCantoResponse
 {
-    public string numRecordings { get; set; }
-    public string numSpecies { get; set; }
+    public string? numRecordings { get; set; }
+    public string? numSpecies { get; set; }
     public int page { get; set; }
     public int numPages { get; set; }
     public List<XenoCantoEntry> recordings { get; set; }

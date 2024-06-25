@@ -1,4 +1,9 @@
-﻿using BirdAPI.ApiService.Database;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using BirdAPI.ApiService.Database;
 using BirdAPI.ApiService.Database.Models;
 using Bogus;
 using MediatR;
@@ -9,7 +14,7 @@ public class AddFakeUsersCommand : IRequest<List<Guid>>
 {
     public Int32 Count { get; set; } = 10; // Default count is set to 10
     
-    public class AddFakeUsersHandler(ApplicationDBContext context) : IRequestHandler<AddFakeUsersCommand, List<Guid>>
+    public class AddFakeUsersHandler(ApplicationDbContext context) : IRequestHandler<AddFakeUsersCommand, List<Guid>>
     {
         public async Task<List<Guid>> Handle(AddFakeUsersCommand request, CancellationToken cancellationToken)
         {

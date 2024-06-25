@@ -1,8 +1,8 @@
 using BirdAPI.ApiService.BackgroundServices;
 using BirdAPI.ApiService.Database;
-using Neo4j.Berries.OGM;
-using BirdAPI.ApiService.Controllers;
-using Microsoft.EntityFrameworkCore; // Stellen Sie sicher, dass der Namespace korrekt importiert wird
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting; // Stellen Sie sicher, dass der Namespace korrekt importiert wird
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddHttpClient();
 builder.Services.AddHostedService<XenoCantoFetcher>();
 
-builder.Services.AddDbContext<ApplicationDBContext>();
+builder.Services.AddDbContext<ApplicationDbContext>();
     
 
 var app = builder.Build();
