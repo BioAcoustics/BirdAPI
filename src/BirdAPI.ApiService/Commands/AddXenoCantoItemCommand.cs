@@ -28,7 +28,7 @@ public class AddXenoCantoItemCommand :  IRequest<Guid>
                     }
                 }
 
-                context.XenoCantoEntries.AddRange(request.XenoCantoEntries);
+                await context.XenoCantoEntries.AddRangeAsync(request.XenoCantoEntries);
                 await context.SaveChangesAsync();
 
                 return Guid.NewGuid();

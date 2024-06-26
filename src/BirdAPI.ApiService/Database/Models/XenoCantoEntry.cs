@@ -37,14 +37,9 @@ public class XenoCantoEntry
     public string? file { get; set; }
     [JsonPropertyName("file-name")]
     public string? fileName { get; set; }
-
-    [ForeignKey("SonoId")]
-    public Sono sono { get; set; }
-    public int SonoId { get; set; }
-
-    [ForeignKey("OsciId")]
-    public Osci osci { get; set; }
-    public int OsciId { get; set; }
+    
+    public Sono? sono { get; set; }
+    public Osci? osci { get; set; }
 
     public string? lic { get; set; }
     public string q { get; set; }
@@ -72,7 +67,10 @@ public class XenoCantoEntry
 public class Sono
 {
     [Key]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
+    [ForeignKey("XenoCantoEntry")]
+    public string XcId { get; set; }  // Make sure this is not nullable
+    public XenoCantoEntry? XenoCantoEntry { get; set; }
     public string small { get; set; }
     public string med { get; set; }
     public string large { get; set; }
@@ -82,8 +80,12 @@ public class Sono
 public class Osci
 {
     [Key]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
+    [ForeignKey("XenoCantoEntry")]
+    public string XcId { get; set; }  // Make sure this is not nullable
+    public XenoCantoEntry? XenoCantoEntry { get; set; }
     public string small { get; set; }
     public string med { get; set; }
     public string large { get; set; }
 }
+

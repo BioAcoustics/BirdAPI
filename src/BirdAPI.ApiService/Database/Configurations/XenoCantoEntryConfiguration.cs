@@ -1,15 +1,25 @@
 ﻿using BirdAPI.ApiService.Database.Models;
-using Neo4j.Berries.OGM.Enums;
-using Neo4j.Berries.OGM.Interfaces;
-using Neo4j.Berries.OGM.Models.Config;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BirdAPI.ApiService.Database.Configurations;
 
-public class XenoCantoEntryConfiguration : INodeConfiguration<XenoCantoEntry>
+public class XenoCantoEntryConfiguration : IEntityTypeConfiguration<XenoCantoEntry>
 {
-    public void Configure(NodeTypeBuilder<XenoCantoEntry> builder)
+    public void Configure(EntityTypeBuilder<XenoCantoEntry> builder)
     {
-        builder.HasIdentifier(x => x.id);
+        builder
+            .HasOne(s => s.sono)
+            .WithOne(e => e.XenoCantoEntry)
+            .HasForeignKey<Sono>(e => e.XcId)
+            .HasPrincipalKey<XenoCantoEntry>(x => x.id)
+            .IsRequired(true);  // Ensure this is required
+
+        builder
+            .HasOne(o => o.osci)
+            .WithOne(e => e.XenoCantoEntry)
+            .HasForeignKey<Osci>(e => e.XcId)
+            .HasPrincipalKey<XenoCantoEntry>(x => x.id)
+            .IsRequired(true);  // Ensure this is required
     }
-    
 }
