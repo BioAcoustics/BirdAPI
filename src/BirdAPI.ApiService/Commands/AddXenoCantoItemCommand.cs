@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BirdAPI.ApiService.Database;
 using BirdAPI.ApiService.Database.Models;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace BirdAPI.ApiService.Commands;
 
@@ -19,10 +20,18 @@ public class AddXenoCantoItemCommand :  IRequest<Guid>
         {
             try
             {
-
-                await context.XenoCantoEntries.AddRangeAsync(request.XenoCantoEntries);
-                await context.SaveChangesAsync();
-
+                // loop through the list of XenoCantoEntries and show the "also" property if it is not empty
+                foreach (var entry in request.XenoCantoEntries)
+                {
+                    await context.XenoCantoEntries.Upsert(entry)
+                        .On(x => x.id)
+                        .WhenMatched((old, updated) => new XenoCantoEntry
+                        {
+                            also = updated.also
+                        })
+                        .RunAsync();
+                }
+                
                 return Guid.NewGuid();
             }
             catch (Exception ex)

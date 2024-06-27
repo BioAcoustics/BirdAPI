@@ -37,8 +37,8 @@ public class XenoCantoEntry
     [JsonPropertyName("file-name")]
     public string? fileName { get; set; }
     
-    public Sono? sono { get; set; }
-    public Osci? osci { get; set; }
+    public Sono sono { get; set; }
+    public Osci osci { get; set; }
 
     public string? lic { get; set; }
     public string q { get; set; }
@@ -61,6 +61,8 @@ public class XenoCantoEntry
     public string? dvc { get; set; }
     public string? mic { get; set; }
     public string? smp { get; set; }
+    
+    
 }
 
 public class Sono

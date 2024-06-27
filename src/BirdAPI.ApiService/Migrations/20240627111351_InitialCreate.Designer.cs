@@ -11,7 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BirdAPI.ApiService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
+<<<<<<<< HEAD:src/BirdAPI.ApiService/Migrations/20240627111351_InitialCreate.Designer.cs
     [Migration("20240627111351_InitialCreate")]
+========
+    [Migration("20240626151705_InitialCreate")]
+>>>>>>>> 953c096 (Use Upsert):src/BirdAPI.ApiService/Migrations/20240626151705_InitialCreate.Designer.cs
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -42,7 +46,11 @@ namespace BirdAPI.ApiService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+<<<<<<<< HEAD:src/BirdAPI.ApiService/Migrations/20240627111351_InitialCreate.Designer.cs
                     b.Property<string>("XenoCantoEntryid")
+========
+                    b.Property<string>("XcId")
+>>>>>>>> 953c096 (Use Upsert):src/BirdAPI.ApiService/Migrations/20240626151705_InitialCreate.Designer.cs
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -60,10 +68,17 @@ namespace BirdAPI.ApiService.Migrations
 
                     b.HasKey("Id");
 
+<<<<<<<< HEAD:src/BirdAPI.ApiService/Migrations/20240627111351_InitialCreate.Designer.cs
                     b.HasIndex("XenoCantoEntryid")
                         .IsUnique();
 
                     b.ToTable("Oscis");
+========
+                    b.HasIndex("XcId")
+                        .IsUnique();
+
+                    b.ToTable("Osci");
+>>>>>>>> 953c096 (Use Upsert):src/BirdAPI.ApiService/Migrations/20240626151705_InitialCreate.Designer.cs
                 });
 
             modelBuilder.Entity("BirdAPI.ApiService.Database.Models.Recording", b =>
@@ -86,7 +101,11 @@ namespace BirdAPI.ApiService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+<<<<<<<< HEAD:src/BirdAPI.ApiService/Migrations/20240627111351_InitialCreate.Designer.cs
                     b.Property<string>("XenoCantoEntryid")
+========
+                    b.Property<string>("XcId")
+>>>>>>>> 953c096 (Use Upsert):src/BirdAPI.ApiService/Migrations/20240626151705_InitialCreate.Designer.cs
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -108,10 +127,17 @@ namespace BirdAPI.ApiService.Migrations
 
                     b.HasKey("Id");
 
+<<<<<<<< HEAD:src/BirdAPI.ApiService/Migrations/20240627111351_InitialCreate.Designer.cs
                     b.HasIndex("XenoCantoEntryid")
                         .IsUnique();
 
                     b.ToTable("Sonos");
+========
+                    b.HasIndex("XcId")
+                        .IsUnique();
+
+                    b.ToTable("Sono");
+>>>>>>>> 953c096 (Use Upsert):src/BirdAPI.ApiService/Migrations/20240626151705_InitialCreate.Designer.cs
                 });
 
             modelBuilder.Entity("BirdAPI.ApiService.Database.Models.User", b =>
@@ -264,7 +290,11 @@ namespace BirdAPI.ApiService.Migrations
                 {
                     b.HasOne("BirdAPI.ApiService.Database.Models.XenoCantoEntry", "XenoCantoEntry")
                         .WithOne("osci")
+<<<<<<<< HEAD:src/BirdAPI.ApiService/Migrations/20240627111351_InitialCreate.Designer.cs
                         .HasForeignKey("BirdAPI.ApiService.Database.Models.Osci", "XenoCantoEntryid")
+========
+                        .HasForeignKey("BirdAPI.ApiService.Database.Models.Osci", "XcId")
+>>>>>>>> 953c096 (Use Upsert):src/BirdAPI.ApiService/Migrations/20240626151705_InitialCreate.Designer.cs
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -275,7 +305,11 @@ namespace BirdAPI.ApiService.Migrations
                 {
                     b.HasOne("BirdAPI.ApiService.Database.Models.XenoCantoEntry", "XenoCantoEntry")
                         .WithOne("sono")
+<<<<<<<< HEAD:src/BirdAPI.ApiService/Migrations/20240627111351_InitialCreate.Designer.cs
                         .HasForeignKey("BirdAPI.ApiService.Database.Models.Sono", "XenoCantoEntryid")
+========
+                        .HasForeignKey("BirdAPI.ApiService.Database.Models.Sono", "XcId")
+>>>>>>>> 953c096 (Use Upsert):src/BirdAPI.ApiService/Migrations/20240626151705_InitialCreate.Designer.cs
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -289,9 +323,17 @@ namespace BirdAPI.ApiService.Migrations
 
             modelBuilder.Entity("BirdAPI.ApiService.Database.Models.XenoCantoEntry", b =>
                 {
+<<<<<<<< HEAD:src/BirdAPI.ApiService/Migrations/20240627111351_InitialCreate.Designer.cs
                     b.Navigation("osci");
 
                     b.Navigation("sono");
+========
+                    b.Navigation("osci")
+                        .IsRequired();
+
+                    b.Navigation("sono")
+                        .IsRequired();
+>>>>>>>> 953c096 (Use Upsert):src/BirdAPI.ApiService/Migrations/20240626151705_InitialCreate.Designer.cs
                 });
 #pragma warning restore 612, 618
         }

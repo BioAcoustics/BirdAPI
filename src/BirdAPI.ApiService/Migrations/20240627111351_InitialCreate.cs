@@ -100,32 +100,55 @@ namespace BirdAPI.ApiService.Migrations
                 });
 
             migrationBuilder.CreateTable(
+<<<<<<<< HEAD:src/BirdAPI.ApiService/Migrations/20240627111351_InitialCreate.cs
                 name: "Oscis",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     XenoCantoEntryid = table.Column<string>(type: "TEXT", nullable: false),
+========
+                name: "Osci",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    XcId = table.Column<string>(type: "TEXT", nullable: false),
+>>>>>>>> 953c096 (Use Upsert):src/BirdAPI.ApiService/Migrations/20240626151705_InitialCreate.cs
                     small = table.Column<string>(type: "TEXT", nullable: false),
                     med = table.Column<string>(type: "TEXT", nullable: false),
                     large = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
+<<<<<<<< HEAD:src/BirdAPI.ApiService/Migrations/20240627111351_InitialCreate.cs
                     table.PrimaryKey("PK_Oscis", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Oscis_XenoCantoEntries_XenoCantoEntryid",
                         column: x => x.XenoCantoEntryid,
+========
+                    table.PrimaryKey("PK_Osci", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Osci_XenoCantoEntries_XcId",
+                        column: x => x.XcId,
+>>>>>>>> 953c096 (Use Upsert):src/BirdAPI.ApiService/Migrations/20240626151705_InitialCreate.cs
                         principalTable: "XenoCantoEntries",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
+<<<<<<<< HEAD:src/BirdAPI.ApiService/Migrations/20240627111351_InitialCreate.cs
                 name: "Sonos",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     XenoCantoEntryid = table.Column<string>(type: "TEXT", nullable: false),
+========
+                name: "Sono",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    XcId = table.Column<string>(type: "TEXT", nullable: false),
+>>>>>>>> 953c096 (Use Upsert):src/BirdAPI.ApiService/Migrations/20240626151705_InitialCreate.cs
                     small = table.Column<string>(type: "TEXT", nullable: false),
                     med = table.Column<string>(type: "TEXT", nullable: false),
                     large = table.Column<string>(type: "TEXT", nullable: false),
@@ -133,10 +156,17 @@ namespace BirdAPI.ApiService.Migrations
                 },
                 constraints: table =>
                 {
+<<<<<<<< HEAD:src/BirdAPI.ApiService/Migrations/20240627111351_InitialCreate.cs
                     table.PrimaryKey("PK_Sonos", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Sonos_XenoCantoEntries_XenoCantoEntryid",
                         column: x => x.XenoCantoEntryid,
+========
+                    table.PrimaryKey("PK_Sono", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sono_XenoCantoEntries_XcId",
+                        column: x => x.XcId,
+>>>>>>>> 953c096 (Use Upsert):src/BirdAPI.ApiService/Migrations/20240626151705_InitialCreate.cs
                         principalTable: "XenoCantoEntries",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -148,6 +178,7 @@ namespace BirdAPI.ApiService.Migrations
                 column: "RecordingId");
 
             migrationBuilder.CreateIndex(
+<<<<<<<< HEAD:src/BirdAPI.ApiService/Migrations/20240627111351_InitialCreate.cs
                 name: "IX_Oscis_XenoCantoEntryid",
                 table: "Oscis",
                 column: "XenoCantoEntryid",
@@ -157,6 +188,17 @@ namespace BirdAPI.ApiService.Migrations
                 name: "IX_Sonos_XenoCantoEntryid",
                 table: "Sonos",
                 column: "XenoCantoEntryid",
+========
+                name: "IX_Osci_XcId",
+                table: "Osci",
+                column: "XcId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sono_XcId",
+                table: "Sono",
+                column: "XcId",
+>>>>>>>> 953c096 (Use Upsert):src/BirdAPI.ApiService/Migrations/20240626151705_InitialCreate.cs
                 unique: true);
         }
 
@@ -167,10 +209,17 @@ namespace BirdAPI.ApiService.Migrations
                 name: "Label");
 
             migrationBuilder.DropTable(
+<<<<<<<< HEAD:src/BirdAPI.ApiService/Migrations/20240627111351_InitialCreate.cs
                 name: "Oscis");
 
             migrationBuilder.DropTable(
                 name: "Sonos");
+========
+                name: "Osci");
+
+            migrationBuilder.DropTable(
+                name: "Sono");
+>>>>>>>> 953c096 (Use Upsert):src/BirdAPI.ApiService/Migrations/20240626151705_InitialCreate.cs
 
             migrationBuilder.DropTable(
                 name: "Users");
