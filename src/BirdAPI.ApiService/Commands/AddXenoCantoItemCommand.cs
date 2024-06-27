@@ -19,14 +19,6 @@ public class AddXenoCantoItemCommand :  IRequest<Guid>
         {
             try
             {
-                // loop through the list of XenoCantoEntries and show the "also" property if it is not empty
-                foreach (var entry in request.XenoCantoEntries)
-                {
-                    if (entry.also.Any())
-                    {
-                        // Console.WriteLine($"also: {entry.also}");
-                    }
-                }
 
                 await context.XenoCantoEntries.AddRangeAsync(request.XenoCantoEntries);
                 await context.SaveChangesAsync();

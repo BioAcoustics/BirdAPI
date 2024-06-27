@@ -8,18 +8,21 @@ public class XenoCantoEntryConfiguration : IEntityTypeConfiguration<XenoCantoEnt
 {
     public void Configure(EntityTypeBuilder<XenoCantoEntry> builder)
     {
-        builder
-            .HasOne(s => s.sono)
-            .WithOne(e => e.XenoCantoEntry)
-            .HasForeignKey<Sono>(e => e.XcId)
-            .HasPrincipalKey<XenoCantoEntry>(x => x.id)
-            .IsRequired(true);  // Ensure this is required
+        builder.HasKey(e => e.id);
 
         builder
-            .HasOne(o => o.osci)
+            .HasOne(e => e.sono)
             .WithOne(e => e.XenoCantoEntry)
-            .HasForeignKey<Osci>(e => e.XcId)
-            .HasPrincipalKey<XenoCantoEntry>(x => x.id)
-            .IsRequired(true);  // Ensure this is required
+            .HasForeignKey<Sono>()
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+            .HasOne(e => e.osci)
+            .WithOne(e => e.XenoCantoEntry)
+            .HasForeignKey<Osci>()
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+
     }
 }

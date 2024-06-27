@@ -16,7 +16,6 @@ public class XenoCantoResponse
 
 public class XenoCantoEntry
 {
-    [Key]
     public string id { get; set; }
     public string? gen { get; set; }
     public string? sp { get; set; }
@@ -66,11 +65,8 @@ public class XenoCantoEntry
 
 public class Sono
 {
-    [Key]
     public Guid Id { get; set; }
-    [ForeignKey("XenoCantoEntry")]
-    public string XcId { get; set; }  // Make sure this is not nullable
-    public XenoCantoEntry? XenoCantoEntry { get; set; }
+    public XenoCantoEntry? XenoCantoEntry { get; set; } = null!; // Required reference navigation to principal
     public string small { get; set; }
     public string med { get; set; }
     public string large { get; set; }
@@ -79,13 +75,11 @@ public class Sono
 
 public class Osci
 {
-    [Key]
     public Guid Id { get; set; }
-    [ForeignKey("XenoCantoEntry")]
-    public string XcId { get; set; }  // Make sure this is not nullable
-    public XenoCantoEntry? XenoCantoEntry { get; set; }
+    public XenoCantoEntry? XenoCantoEntry { get; set; } = null!; // Required reference navigation to principal
     public string small { get; set; }
     public string med { get; set; }
     public string large { get; set; }
 }
+
 
