@@ -1,0 +1,74 @@
+﻿= Aufgabenstellung
+Firstname Lastname <author@asciidoctor.org>
+3.0, July 29, 2022: AsciiDoc article template
+:toc:
+:toc-title: 
+:icons: font
+:url-quickref: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
+
+
+== Projekt Beteiligte
+
+|===
+|Username |Matr. Nr.
+
+|LimitlessGreen
+|Siehe Mail
+
+|Triirt
+|Siehe Mail
+
+|===
+
+
+
+== Problemstellung
+XenoCanto, eine Online-Plattform der Xeno-canto Foundation und des Naturalis Biodiversity Centers, ermöglicht das Teilen und Anhören von Tierstimmen verschiedenster Arten. Sie zielt darauf ab, eine umfassende Sammlung von Tierstimmen zu erstellen und unterstützt derzeit Vögel, Fledermäuse, Frösche und Grashüpfer. Trotz ihres wachsenden Interesses in der KI-Forschung, weist die Plattform eine erhebliche Schwäche auf: Ihre Daten sind nur mit "weak labels" versehen. Das bedeutet, dass obwohl die Daten gelabelt sind, die genauen Zeit- und Frequenzabschnitte, in denen die jeweiligen Tiere zu hören sind, unklar bleiben.
+
+== Zielsetzung
+Das Projektziel ist die Verbesserung der Datenbasis von XenoCanto durch die Schaffung einer öffentlichen Möglichkeit zur Labelung der Aufnahmen. Dabei soll jeder, ähnlich dem Wikipedia-Prinzip, die Möglichkeit haben, Aufnahmen zu labeln. Die Labels sollen in einem Zeit-Frequenz-Plot (Spektogramm) dargestellt werden, um den Labelern eine genaue Lokalisierung der Tierlaute zu ermöglichen. Gelabelte Daten sollen über eine API zugänglich gemacht werden, um Forschern und Entwicklern die Nutzung der Daten für ihre Projekte zu ermöglichen. Im Idealfall könnten diese Daten auch an XenoCanto zurückgegeben werden.
+
+== Umzusetzende Funktionalitäten
+=== Pflicht
+** Backend
+*** XenoCanto API Anbindung
+*** Speichern von gelabelten Daten in einer Datenbank
+*** API zur Abfrage der gelabelten Daten
+*** generierung von Spektogrammen
+
+** Frontend
+*** Anzeige der Aufnahmen (Spektogramm)
+*** Labeling der Aufnahmen
+*** Anzeige der gelabelten Daten
+
+=== Optional (für die Zukunft)
+* History der gelabelten Daten
+* automatisches Preprocessing der Aufnahmen zum besseren labeln (z.B. Rauschunterdrückung, Normalisierung)
+* Integration von Machine Learning Modellen zur automatischen Labelgenerierung (z.B. BirdNet Analyzer)
+* Mehrbenutzerfähigkeit
+** User-Management
+** Rechteverwaltung
+** Kommentarfunktion
+** Auhentifizierung
+
+
+== Technologien (Vorauswahl) (Unvollständig)
+|===
+|Funktion |Technologie
+
+|Backend| .NET Core
+|Datenbank| PostgreSQL
+|Datenbankmanagement| Entity Framework Core
+|API Dokumentation| Swagger
+|API Bereitstellung| ASP.NET Core Web API
+|===
+
+
+== Grobe Aufgabenverteilung
+
+|===
+|Aufgabe |Verantwortlicher
+
+|Backend| LimitlessGreen
+|Frontend| Triirt
+|===
