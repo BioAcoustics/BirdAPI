@@ -31,7 +31,7 @@ Firstname Lastname <author@asciidoctor.org>
 
 == Zielsetzung
 ** Projektziel -> Verbesserung der Datenbasis v. Xeno-Canto
-** Schaffung d. öffentlichen Möglichkeit zur Labelung der Aufnahmen (Wikipedia-Prinzip) 
+** Schaffung d. öffentlichen Möglichkeit zur Labelung d. v. Xeno-Canto bewerteten Aufnahmen (Wikipedia-Prinzip) 
 ** Darstellung d. Labels in Zeit-Frequenz-Plot (Spektogramm) -> genaue Lokalisierung d. Tierlaute
 ** Gelabelte Daten über API zugänglich -> Nutzung der Daten ermöglicht (für z. B. Forscher + Entwickler)
 ** Idealfall -> Daten an Xeno-Canto zurückgeben
