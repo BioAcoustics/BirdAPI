@@ -2,8 +2,6 @@
 Title Beispiel JSON response von XenoCanto Api\n(https://xeno-canto.org/api/2/recordings?query=cnt:brazil&page=1)
 
 
-'skinparam wrapWidth 800
-
 label B [
 {{json
 {
