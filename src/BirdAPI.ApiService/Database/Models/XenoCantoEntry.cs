@@ -67,7 +67,7 @@ public class XenoCantoEntry
 
 public class Sono
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; }
     public XenoCantoEntry? XenoCantoEntry { get; set; } = null!; // Required reference navigation to principal
     public string small { get; set; }
     public string med { get; set; }
@@ -77,7 +77,7 @@ public class Sono
 
 public class Osci
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; }
     public XenoCantoEntry? XenoCantoEntry { get; set; } = null!; // Required reference navigation to principal
     public string small { get; set; }
     public string med { get; set; }

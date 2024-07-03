@@ -13,14 +13,14 @@ public class XenoCantoEntryConfiguration : IEntityTypeConfiguration<XenoCantoEnt
         builder
             .HasOne(e => e.sono)
             .WithOne(e => e.XenoCantoEntry)
-            .HasForeignKey<Sono>()
+            .HasForeignKey<Sono>(a => a.Id)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .HasOne(e => e.osci)
             .WithOne(e => e.XenoCantoEntry)
-            .HasForeignKey<Osci>()
+            .HasForeignKey<Osci>(a => a.Id)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
