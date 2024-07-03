@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using BirdAPI.ApiService.Database;
+﻿using BirdAPI.ApiService.Database;
 using BirdAPI.ApiService.Database.Models;
 using Bogus;
 using MediatR;
@@ -12,7 +7,7 @@ namespace BirdAPI.ApiService.Commands;
 
 public class AddFakeUsersCommand : IRequest<List<Guid>>
 {
-    public Int32 Count { get; set; } = 10; // Default count is set to 10
+    private int Count { get; set; } = 10; // Default count is set to 10
     
     public class AddFakeUsersHandler(ApplicationDbContext context) : IRequestHandler<AddFakeUsersCommand, List<Guid>>
     {
@@ -23,11 +18,11 @@ public class AddFakeUsersCommand : IRequest<List<Guid>>
                 .RuleFor(u => u.Name, f => f.Person.FullName)
                 .Generate(request.Count);
             
-            context.Users.AddRange(users);
-            await context.SaveChangesAsync();
+            await context.Users.AddRangeAsync(users, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
             
-            Console.WriteLine($"Created {users.Count} users with Ids: {String.Join(", ", users.Select(u => u.Id))}");
-            Console.WriteLine($"with names: {String.Join(", ", users.Select(u => u.Name))}");
+            Console.WriteLine($"Created {users.Count} users with Ids: {string.Join(", ", users.Select(u => u.Id))}");
+            Console.WriteLine($"with names: {string.Join(", ", users.Select(u => u.Name))}");
             
             return users.Select(u => u.Id).ToList();
         }

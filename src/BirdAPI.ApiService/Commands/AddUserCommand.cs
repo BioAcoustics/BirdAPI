@@ -9,7 +9,7 @@ namespace BirdAPI.ApiService.Commands;
 
 public class AddUserCommand : IRequest<Guid>
 {
-    public String Name { get; set; }
+    public string Name { get; set; }
 
     public class CreateUserHandler(ApplicationDbContext context) : IRequestHandler<AddUserCommand, Guid>
     {
@@ -17,8 +17,8 @@ public class AddUserCommand : IRequest<Guid>
         {
             var user = new User(request);
 
-            context.Users.Add(user);
-            await context.SaveChangesAsync();
+            await context.Users.AddAsync(user, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
             Console.WriteLine($"User {user.Id} with Name {user.Name} created");
 
