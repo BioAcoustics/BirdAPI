@@ -1,44 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using BirdAPI.ApiService.Database;
+﻿using BirdAPI.ApiService.Database;
 using BirdAPI.ApiService.Database.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace BirdAPI.ApiService.Commands;
 
-public class AddXenoCantoItemCommand :  IRequest<Guid>
+public class AddXenoCantoItemCommand :  IRequest<string>
 {
-    public List<XenoCantoEntry> XenoCantoEntries { get; set; }
+    public List<XenoCantoEntry>? XenoCantoEntries { get; set; }
     
-    public class AddXenoCantoItemHandler(ApplicationDbContext context) : IRequestHandler<AddXenoCantoItemCommand, Guid>
+    public class AddXenoCantoItemHandler(ApplicationDbContext context) : IRequestHandler<AddXenoCantoItemCommand, string>
     {
-        public async Task<Guid> Handle(AddXenoCantoItemCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(AddXenoCantoItemCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                // loop through the list of XenoCantoEntries and show the "also" property if it is not empty
-                foreach (var entry in request.XenoCantoEntries)
-                {
-                    await context.XenoCantoEntries.Upsert(entry)
-                        .On(x => x.id)
-                        .WhenMatched((old, updated) => new XenoCantoEntry
-                        {
-                            also = updated.also
-                        })
-                        .RunAsync();
-                }
-                
-                return Guid.NewGuid();
+                await context.BulkMergeAsync(
+                    request.XenoCantoEntries,
+                    options => options.IncludeGraph = true, 
+                    cancellationToken);
             }
             catch (Exception ex)
             {
                 LogException(ex);
                 throw; // rethrow the exception after logging
             }
+            return "Success";
+            
         }
 
         private void LogException(Exception ex)
