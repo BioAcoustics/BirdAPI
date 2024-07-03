@@ -31,64 +31,64 @@ namespace BirdAPI.ApiService.BackgroundServices
             _serviceScopeFactory = serviceScopeFactory;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+{
+    using var periodicTimer = new PeriodicTimer(TimeSpan.FromMinutes(10));
+    _ = PeriodicSaveAsync(periodicTimer, stoppingToken);
+
+    char[] qualityRatings = { 'a', 'b', 'c', 'd', 'e' };
+
+    while (!stoppingToken.IsCancellationRequested)
+    {
+        foreach (var quality in qualityRatings)
         {
-            using var periodicTimer = new PeriodicTimer(TimeSpan.FromMinutes(10));
-            _ = PeriodicSaveAsync(periodicTimer, stoppingToken);
+            if (stoppingToken.IsCancellationRequested) break;
 
-            char[] qualityRatings = ['a', 'b', 'c', 'd', 'e'];
+            var currentPage = quality == _progress.CurrentQuality ? _progress.CurrentPage : 1;
+            var numPages = int.MaxValue;
 
-            foreach (var quality in qualityRatings)
+            while (!stoppingToken.IsCancellationRequested && currentPage <= numPages)
             {
-                if (quality < _progress.CurrentQuality)
+                try
                 {
-                    continue; // Skip already processed qualities
-                }
+                    var httpClient = _httpClientFactory.CreateClient();
+                    var response = await httpClient.GetAsync($"{BaseUrl}{quality}&page={currentPage}", stoppingToken);
+                    response.EnsureSuccessStatusCode();
 
-                var currentPage = quality == _progress.CurrentQuality ? _progress.CurrentPage : 1;
-                var numPages = int.MaxValue;
+                    var content = await response.Content.ReadAsStringAsync(stoppingToken);
+                    var xenoCantoResponse = JsonSerializer.Deserialize<XenoCantoResponse>(content);
 
-                while (!stoppingToken.IsCancellationRequested && currentPage <= numPages)
-                {
-                    try
+                    if (xenoCantoResponse != null)
                     {
-                        var httpClient = _httpClientFactory.CreateClient();
-                        var response = await httpClient.GetAsync($"{BaseUrl}{quality}&page={currentPage}", stoppingToken);
-                        response.EnsureSuccessStatusCode();
+                        numPages = xenoCantoResponse.numPages;
+                        Console.WriteLine($"Fetched page {currentPage} of {numPages} for quality {quality}");
 
-                        var content = await response.Content.ReadAsStringAsync(stoppingToken);
-                        var xenoCantoResponse = JsonSerializer.Deserialize<XenoCantoResponse>(content);
-
-                        if (xenoCantoResponse != null)
+                        using (var scope = _serviceScopeFactory.CreateScope())
                         {
-                            numPages = xenoCantoResponse.numPages;
-                            Console.WriteLine($"Fetched page {currentPage} of {numPages} for quality {quality}");
-                            
-                            // Process the fetched data
-                            // use mediator to add the fetched data to the database
-                            // TODO: is there a better way?
-                            using (var scope = _serviceScopeFactory.CreateScope())
-                            {
-                                var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-                                var command = new AddXenoCantoItemCommand { XenoCantoEntries = xenoCantoResponse.recordings };
-                                await mediator.Send(command);
-                            }
-                            
+                            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+                            var command = new AddXenoCantoItemCommand { XenoCantoEntries = xenoCantoResponse.recordings };
+                            await mediator.Send(command);
                         }
-
-                        currentPage++;
-                        _progress.CurrentQuality = quality;
-                        _progress.CurrentPage = currentPage;
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"An error occurred: {ex.Message}");
                     }
 
-                    await Task.Delay(1000, stoppingToken); // Delay for 1 second
+                    currentPage++;
+                    _progress.CurrentQuality = quality;
+                    _progress.CurrentPage = currentPage;
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+                }
+
+                await Task.Delay(1000, stoppingToken); // Delay for 1 second
             }
         }
+
+        // Reset progress to start from the beginning
+        _progress.CurrentQuality = 'a';
+        _progress.CurrentPage = 1;
+    }
+}
 
         private FetchProgress LoadProgress()
         {
