@@ -6,6 +6,11 @@
   <p><img src="documentation/Logo/Bild3_3.png" width="500px" /></p>
 ++++
 
+++++
+</div>
+++++
+
+
 == Overview
 The Xeno-Canto Labeling Platform aims to enhance the Xeno-Canto database by providing a public platform where users can collaboratively label recordings using a Wikipedia-like approach. These user-generated labels will be displayed in spectrograms for precise localization of animal sounds and made accessible via an API for researchers and developers.
 
