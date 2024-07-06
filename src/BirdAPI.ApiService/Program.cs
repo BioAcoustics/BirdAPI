@@ -24,10 +24,19 @@ builder.Services.AddHttpClient();
 builder.Services.AddHostedService<XenoCantoFetcher>();
 
 var Configuration = builder.Configuration;
+
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
+
+// Automatically apply migrations
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate(); // This applies pending migrations or creates the database if it doesn't exist
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
