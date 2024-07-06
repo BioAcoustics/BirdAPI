@@ -1,0 +1,44 @@
+@page "/sonogram"
+@inject HttpClient Http
+
+<h3>Sonogram</h3>
+@*bad code right now, change ASAP, only for testing+example*@
+
+@if (string.IsNullOrEmpty(imageUrl))
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div id="sonogramContainer" style="position: relative;">
+        <img id="sonogramImage" src="@imageUrl" style="max-width: 100%; max-height: 100vh;" />
+        <canvas id="drawingCanvas" style="position: absolute; top: 0; left: 0;"></canvas>
+    </div>
+
+    <button @onclick="SaveRectangle">Save Rectangle</button>
+    //style has to be changed, TODO
+}
+@code {
+    string imageUrl;
+    string endpointIma;
+    string endpointRec;
+    Rectangle rectangle;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //richtige URL und Methode, TODO
+        //...
+        if(!endpoint.IsNullOrEmpty()){
+            imageUrl = await Http.GetStringAsync(endpoint);
+            //only empty during dev phase, will be changed, TODO
+        }else{
+            imageUrl="https://xeno-canto.org/api/2/recordings?query=cnt:brazil&page=1";
+        }
+    }
+
+    async Task SaveRectangle()
+    {
+        var command = new SaveRectangleCommand { Rectangle = rectangle };
+        await Http.PostAsJsonAsync(endpointRec, command);
+    }
+}
