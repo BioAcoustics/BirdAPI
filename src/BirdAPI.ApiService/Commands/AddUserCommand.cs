@@ -11,6 +11,11 @@ public class AddUserCommand : IRequest<Guid>
 {
     public string Name { get; set; }
 
+    public AddUserCommand(string name)
+    {
+        Name = name;
+    }
+
     public class CreateUserHandler(ApplicationDbContext context) : IRequestHandler<AddUserCommand, Guid>
     {
         public async Task<Guid> Handle(AddUserCommand request, CancellationToken cancellationToken)

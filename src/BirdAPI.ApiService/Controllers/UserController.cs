@@ -17,6 +17,6 @@ public class UserController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> AddFakeUsers(AddFakeUsersCommand command)=> Ok(await mediator.Send(command));
     
     [HttpPost("create")]
-    public async Task<IActionResult> CreateUser(AddUserCommand command)=> Ok(await mediator.Send(command));
+    public async Task<IActionResult> CreateUser([FromBody] AddUserCommand command) => Ok(await mediator.Send(command));
 
 }

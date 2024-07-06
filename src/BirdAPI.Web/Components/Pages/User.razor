@@ -1,0 +1,21 @@
+@page "/user"
+@inject HttpClient Http
+
+<PageTitle>User</PageTitle>
+
+<h1>Hello!</h1>
+
+This is  just an example for the future.
+
+<input @bind="username" placeholder="Enter your name" />
+<button class="btn btn-primary" @onclick="CreateUser">Submit</button>
+
+@code {
+    string username;
+
+    async Task CreateUser()
+    {
+        var command = new AddUserCommand { Name = username };
+        await Http.PostAsJsonAsync("users/create", command);
+    }
+}
