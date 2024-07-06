@@ -1,5 +1,6 @@
 @page "/sonogram"
 @inject HttpClient Http
+@using System.Drawing
 
 <h3>Sonogram</h3>
 @*bad code right now, change ASAP, only for testing+example*@
@@ -28,17 +29,17 @@ else
     {
         //richtige URL und Methode, TODO
         //...
-        if(!endpoint.IsNullOrEmpty()){
-            imageUrl = await Http.GetStringAsync(endpoint);
+        if(!string.IsNullOrEmpty(endpointIma)){
+            imageUrl = await Http.GetStringAsync(endpointIma);
             //only empty during dev phase, will be changed, TODO
         }else{
-            imageUrl="https://xeno-canto.org/api/2/recordings?query=cnt:brazil&page=1";
+            imageUrl="//xeno-canto.org/sounds/uploaded/LXKLWEDKEM/wave/XC754598-large.png";
         }
     }
 
     async Task SaveRectangle()
     {
-        var command = new SaveRectangleCommand { Rectangle = rectangle };
-        await Http.PostAsJsonAsync(endpointRec, command);
+        //var command = new SaveRectangleCommand { Rectangle = rectangle };
+        //await Http.PostAsJsonAsync(endpointRec, command);
     }
 }
