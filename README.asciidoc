@@ -26,6 +26,20 @@ How can we leverage collaborative efforts to improve the accuracy and usability 
 == Documentation
 All documentation and UML diagrams related to this project can be found in the 'documentation' directory.
 
+== Installation
+To install the Xeno-Canto Labeling Platform, follow these steps:
+
+. Make sure, Docker is installed on your machine
+. Clone the repository
+. change directory into root and then into `src`
+. Install .NET Aspire, by running `dotnet workload update` and `dotnet workload install aspire`
+. Install dependencies by running `dotnet restore`
+. Run the application by changing into the `BirdAPI.AppHost` directory and running `dotnet run`
+
+== Usage
+* .NET Aspire Interface: https://localhost:17230/
+* API Documentation: https://localhost:7344/swagger
+
 == Contact
 For any questions or suggestions, please open an issue or contact us directly.
 
