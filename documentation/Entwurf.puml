@@ -1,0 +1,71 @@
+﻿@startuml
+
+package "BirdAPI.ApiService.Controllers" {
+    class UserController {
+        +Get(): IEnumerable<User>
+        +Post(User): Task
+    }
+
+    class XenoCantoEntryController {
+        +Get(): IEnumerable<XenoCantoEntry>
+        +Post(XenoCantoEntry): Task
+    }
+}
+
+package BirdAPI.ApiService.BackgroundServices {
+    class XenoCantoEntryService {
+        +DoWork(CancellationToken): Task
+    }
+}
+
+
+package "BirdAPI.Data.Repositories" {
+    interface IUserRepository {
+        +AddUserAsync(User, CancellationToken): Task
+        +GetUserByIdAsync(Guid, CancellationToken): Task<User>
+        +DeleteUserAsync(Guid, CancellationToken): Task<User>
+    }
+    
+    class UserRepository implements IUserRepository {
+        +AddUserAsync(User, CancellationToken): Task
+        +GetUserByIdAsync(Guid, CancellationToken): Task<User>
+        +DeleteUserAsync(Guid, CancellationToken): Task<User>
+    }
+
+    interface IXenoCantoEntriyRepository {
+        +GetXenoCantoEntryByIdAsync(string, CancellationToken): Task
+    }
+    
+    class XenoCantoEntryRepository implements IXenoCantoEntriyRepository {
+        +GetXenoCantoEntryByIdAsync(string, CancellationToken): Task
+    }
+}
+
+
+
+package "BirdAPI.Data.Models" {
+    class User {
+        +Id: Guid
+        +Name: string
+    }
+
+    class XenoCantoEntry {
+        +Id: string
+        +Name: string
+        +Url: string
+        +Length: int
+        +Recorded: DateTime
+    }
+    
+}
+
+UserRepository ..> User : <<use>>
+XenoCantoEntryRepository ..> XenoCantoEntry : <<use>>
+
+
+XenoCantoEntryService ..> IXenoCantoEntriyRepository : <<use>>
+UserController ..> IUserRepository : <<use>>
+XenoCantoEntryController ..> IXenoCantoEntriyRepository : <<use>>
+
+
+@enduml
