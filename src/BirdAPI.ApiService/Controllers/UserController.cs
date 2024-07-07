@@ -1,8 +1,5 @@
-﻿using System.Diagnostics;
-using System.Threading.Tasks;
+﻿
 using BirdAPI.ApiService.Commands;
-using BirdAPI.ApiService.Database;
-using BirdAPI.ApiService.Database.Models;
 using Bogus;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
