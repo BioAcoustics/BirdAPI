@@ -1,0 +1,1 @@
+image::puml_rendered/documentation/XenoCantoApiResponse.svg[Xeno-Canto API Response]
