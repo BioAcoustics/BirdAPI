@@ -13,33 +13,35 @@ on:
 jobs:
   render:
     runs-on: ubuntu-latest
-    
-    container:
-      image: plantuml/plantuml:latest
-      options: --entrypoint /bin/sh
+
+    env:
+      OUTPUT_DIR: "documentation/puml_rendered"
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set output path
-      id: vars
-      run: echo "::set-output name=output_path::${{ github.workspace }}/output"
+      - name: Start PlantUML Server
+        run: |
+          docker run -d --name plantuml-server -p 8080:8080 plantuml/plantuml-server:jetty
 
-    - name: Create output directory
-      run: mkdir -p ${{ steps.vars.outputs.output_path }}
+      - name: Render PUML files to SVG
+        run: |
+          mkdir -p ${{ env.OUTPUT_DIR }}
+          for file in $(find . -name '*.puml'); do
+            filename=$(basename -- "$file")
+            curl -o ${{ env.OUTPUT_DIR }}/${filename%.puml}.svg "http://localhost:8080/svg/$file"
+          done
 
-    - name: Render PUML files to SVG
-      run: |
-        # Find all .puml files and convert them to .svg
-        find . -name "*.puml" -print0 | while IFS= read -r -d '' file; do
-          svg_file="${{ steps.vars.outputs.output_path }}/${file%.puml}.svg"
-          java -jar /opt/plantuml.jar -tsvg "$file" -o "${{ steps.vars.outputs.output_path }}"
-        done
+      - name: Configure git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-    - name: Commit and push changes
-      uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        commit_message: 'Render PUML files to SVG'
-        file_pattern: '${{ steps.vars.outputs.output_path }}/**/*.svg'
-        branch: ${{ github.ref }}
+      - name: Commit and push changes
+        run: |
+          git add ${{ env.OUTPUT_DIR }}
+          git commit -m "Rendered SVGs from PUML files"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
