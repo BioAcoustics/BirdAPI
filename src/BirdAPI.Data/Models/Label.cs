@@ -1,5 +1,3 @@
-using System;
-
 namespace BirdAPI.ApiService.Database.Models;
 
 public class Label

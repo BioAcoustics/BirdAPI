@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using BirdAPI.ApiService.Database.Configurations;
+﻿using BirdAPI.ApiService.Database.Configurations;
 using Microsoft.EntityFrameworkCore;
 using BirdAPI.ApiService.Database.Models;
 

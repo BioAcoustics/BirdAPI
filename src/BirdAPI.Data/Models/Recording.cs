@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-
-
 namespace BirdAPI.ApiService.Database.Models;
 
 public class Recording

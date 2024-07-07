@@ -13,8 +13,8 @@ package "BirdAPI.ApiService.Controllers" {
 }
 
 package BirdAPI.ApiService.BackgroundServices {
-    class XenoCantoEntryService {
-        +DoWork(CancellationToken): Task
+    class XenoCantoEntryFetcher {
+        +FetchXcEntities(CancellationToken): Task
     }
 }
 
@@ -63,7 +63,7 @@ UserRepository ..> User : <<use>>
 XenoCantoEntryRepository ..> XenoCantoEntry : <<use>>
 
 
-XenoCantoEntryService ..> IXenoCantoEntriyRepository : <<use>>
+XenoCantoEntryFetcher ..> IXenoCantoEntriyRepository : <<use>>
 UserController ..> IUserRepository : <<use>>
 XenoCantoEntryController ..> IXenoCantoEntriyRepository : <<use>>
 
