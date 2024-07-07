@@ -4,11 +4,11 @@ on:
   push:
     paths:
       - '**/*.puml'
-      - '.github/workflows/render-puml.yml'
+      - '.github/workflows/render-plantuml.yml'
   pull_request:
     paths:
       - '**/*.puml'
-      - '.github/workflows/render-puml.yml'
+      - '.github/workflows/render-plantuml.yml'
 
 jobs:
   render:
