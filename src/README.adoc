@@ -1,0 +1,24 @@
+﻿
+|===
+|Package |Description
+
+|ApiService
+|The API service that will be used to interact with the `Data` layer. This is, where the API is located.
+
+|AppHost
+|This is the main entry point. If you want to start the whole application, run *this*. 
+
+|Data
+|The data layer that will be used to interact with the database
+
+|MigrationService
+|The migration service that will be used to migrate (create/update) the database
+
+|ServiceDefaults
+|From .NET Aspire
+
+|Web
+|The web layer that will be used to interact with the API. This is, where the labeling App is located.
+
+|===
+
