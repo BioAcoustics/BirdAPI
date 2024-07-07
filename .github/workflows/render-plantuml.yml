@@ -59,19 +59,10 @@ jobs:
             fi
         done
 
-    - name: Configure git
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
     - name: Commit and push changes
-      run: |
-        git add ${{ env.OUTPUT_DIR }}
-        if git diff --cached --quiet; then
-          echo "No changes to commit"
-        else
-          git commit -m "Rendered SVGs from PUML files"
-          git push
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Rendered SVGs from PUML files
+        branch: ${{ github.ref }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          git push
