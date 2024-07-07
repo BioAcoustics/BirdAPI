@@ -25,23 +25,42 @@ jobs:
         run: |
           docker run -d --name plantuml-server -p 8080:8080 plantuml/plantuml-server:jetty
 
-      - name: Render PUML files to SVG
+      - name: Render changed PUML files to SVG
         run: |
-          mkdir -p ${{ env.OUTPUT_DIR }}
-          for file in $(find . -name '*.puml'); do
-            filename=$(basename -- "$file")
-            curl -o ${{ env.OUTPUT_DIR }}/${filename%.puml}.svg "http://localhost:8080/svg/$file"
+          #!/bin/bash
+  
+          set -e
+  
+          target=${{ env.OUTPUT_DIR }}
+          mkdir -p $target
+          base_commit=$(git log -n 1 --pretty=format:%h)
+          find . -type f -name '*.puml' | while read f
+          do
+              hash="$( git log -n 1 --pretty=format:%h -- ${f})"
+              d=$(dirname $f)
+              if [ "$base_commit" == "$hash" ] ; then
+                  echo "$f changed in this commit - regenerating"
+                  mkdir -p $target/$d
+                  destfile=${f%%.puml}.svg
+                  cat ${f} | curl --silent --show-error --fail -H "Content-Type: text/plain" --data-binary @- http://localhost:8080/svg/ --output "${target}/${destfile}"
+              else
+                  echo "$f not changed in this commit - no need to generate"
+              fi
           done
-
+  
       - name: Configure git
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
+  
       - name: Commit and push changes
         run: |
           git add ${{ env.OUTPUT_DIR }}
-          git commit -m "Rendered SVGs from PUML files"
-          git push
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Rendered SVGs from PUML files"
+            git push
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
