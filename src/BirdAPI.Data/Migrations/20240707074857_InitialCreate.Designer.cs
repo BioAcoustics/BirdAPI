@@ -10,10 +10,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace BirdAPI.ApiService.Migrations
+namespace BirdAPI.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240703153104_InitialCreate")]
+    [Migration("20240707074857_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

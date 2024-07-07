@@ -1,15 +1,14 @@
 using System;
-using BirdAPI.ApiService.Commands;
 
 namespace BirdAPI.ApiService.Database.Models;
 
 public class User
 {
-    public User(AddUserCommand request)
-    {
-        Id = Guid.NewGuid();
-        Name = request.Name;
-    }
+    //public User(AddUserCommand request)
+    //{
+    //    Id = Guid.NewGuid();
+    //    Name = request.Name;
+    //}
 
     public User(){ }
    

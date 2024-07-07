@@ -8,9 +8,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BirdAPI.ServiceDefaults\BirdAPI.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\BirdAPI.Data\BirdAPI.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
     <PackageReference Include="Bogus" Version="35.5.1" />
     <PackageReference Include="FlexLabs.EntityFrameworkCore.Upsert" Version="8.0.0" />
     <PackageReference Include="MediatR" Version="12.3.0" />

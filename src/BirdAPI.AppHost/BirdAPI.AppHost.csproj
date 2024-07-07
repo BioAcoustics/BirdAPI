@@ -11,11 +11,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BirdAPI.ApiService\BirdAPI.ApiService.csproj" />
-    <ProjectReference Include="..\BirdAPI.Web\BirdAPI.Web.csproj" />
+	<ProjectReference Include="..\BirdAPI.Web\BirdAPI.Web.csproj" />
+    <ProjectReference Include="..\BirdAPI.MigrationService\BirdAPI.MigrationService.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="8.0.1" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="8.0.2" />
     <PackageReference Include="Aspire.Hosting.Redis" Version="8.0.1" />
   </ItemGroup>
 

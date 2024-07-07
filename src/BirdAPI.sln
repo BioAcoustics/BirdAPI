@@ -1,3 +1,4 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.0.0
@@ -9,6 +10,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BirdAPI.ApiService", "BirdAPI.ApiService\BirdAPI.ApiService.csproj", "{28B646C1-79FC-446A-97DD-3EEB2DAD6B1A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BirdAPI.Web", "BirdAPI.Web\BirdAPI.Web.csproj", "{F1EF0E24-7D79-40C2-9002-D449FEADE594}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BirdAPI.Data", "BirdAPI.Data\BirdAPI.Data.csproj", "{9A5C1062-9BB5-48C1-9A8D-6672EA311F54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BirdAPI.MigrationService", "BirdAPI.MigrationService\BirdAPI.MigrationService.csproj", "{7D571D2B-CA30-44BA-AFA0-562446524F74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +37,14 @@ Global
 		{F1EF0E24-7D79-40C2-9002-D449FEADE594}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1EF0E24-7D79-40C2-9002-D449FEADE594}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1EF0E24-7D79-40C2-9002-D449FEADE594}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A5C1062-9BB5-48C1-9A8D-6672EA311F54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A5C1062-9BB5-48C1-9A8D-6672EA311F54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A5C1062-9BB5-48C1-9A8D-6672EA311F54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A5C1062-9BB5-48C1-9A8D-6672EA311F54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D571D2B-CA30-44BA-AFA0-562446524F74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D571D2B-CA30-44BA-AFA0-562446524F74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D571D2B-CA30-44BA-AFA0-562446524F74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D571D2B-CA30-44BA-AFA0-562446524F74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
