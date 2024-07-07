@@ -1,14 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 using BirdAPI.ApiService.Database.Models;
 using BirdAPI.Data.Repositories;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+
 
 namespace BirdAPI.ApiService.BackgroundServices
 {

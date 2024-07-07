@@ -1,8 +1,4 @@
-﻿using System.Diagnostics;
-using System.Threading.Tasks;
-using BirdAPI.ApiService.Database;
-using BirdAPI.ApiService.Database.Models;
-using BirdAPI.Data.Repositories;
+﻿using BirdAPI.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BirdAPI.ApiService.Controllers;

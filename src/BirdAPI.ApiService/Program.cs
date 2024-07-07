@@ -1,9 +1,5 @@
 using BirdAPI.ApiService.BackgroundServices;
 using BirdAPI.ApiService.Database;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting; // Stellen Sie sicher, dass der Namespace korrekt importiert wird
 
 // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 // ┃  Application Initialization         ┃
@@ -17,9 +13,6 @@ builder.AddNpgsqlDbContext<ApplicationDbContext>("birdapi");
 builder.AddServiceDefaults();
 builder.Services.AddProblemDetails();
 builder.Services.AddControllers(); // Registriert alle Controller
-builder.Services.AddMediatR(cfg => {
-    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
-});
 builder.Services.AddSwaggerGen(c => {
     c.SwaggerDoc("v1", new() { Title = "BirdAPI.ApiService", Version = "v1" });
 });

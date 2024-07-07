@@ -1,8 +1,5 @@
-﻿
-using BirdAPI.ApiService.Database.Models;
+﻿using BirdAPI.ApiService.Database.Models;
 using BirdAPI.Data.Repositories;
-using Bogus;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BirdAPI.ApiService.Controllers;
