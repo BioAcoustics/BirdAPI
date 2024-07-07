@@ -5,19 +5,22 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting; // Stellen Sie sicher, dass der Namespace korrekt importiert wird
 
+// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+// ┃  Application Initialization         ┃
+// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 var builder = WebApplication.CreateBuilder(args);
 
-// Add service defaults & Aspire components.
+// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+// ┃  Service Configuration              ┃
+// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+builder.AddNpgsqlDbContext<ApplicationDbContext>("birdapi");
 builder.AddServiceDefaults();
-
-// Add services to the container.
 builder.Services.AddProblemDetails();
-builder.Services.AddControllers(); // Diese Zeile registriert alle Controller
+builder.Services.AddControllers(); // Registriert alle Controller
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
 });
-builder.Services.AddSwaggerGen(c =>
-{
+builder.Services.AddSwaggerGen(c => {
     c.SwaggerDoc("v1", new() { Title = "BirdAPI.ApiService", Version = "v1" });
 });
 builder.Services.AddHttpClient();
@@ -25,32 +28,35 @@ builder.Services.AddHostedService<XenoCantoFetcher>();
 
 var Configuration = builder.Configuration;
 
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-
 var app = builder.Build();
 
-// Automatically apply migrations
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.Migrate(); // This applies pending migrations or creates the database if it doesn't exist
-}
+// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+// ┃  Database Migration                 ┃
+// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+//using (var scope = app.Services.CreateScope())
+//{
+//    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+//    dbContext.Database.Migrate(); // Wendet ausstehende Migrationen an oder erstellt die Datenbank
+//}
 
-// Configure the HTTP request pipeline.
+// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+// ┃  Middleware Configuration           ┃
+// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-
-// Configure the HTTP request pipeline.
 app.UseExceptionHandler();
 
-app.MapControllers(); // Diese Zeile registriert alle Endpunkte aus den Controllern
-
+// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+// ┃  Endpoint Mapping                   ┃
+// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+app.MapControllers(); // Registriert alle Endpunkte aus den Controllern
 app.MapDefaultEndpoints();
 
+// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+// ┃  Application Run                    ┃
+// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 app.Run();
