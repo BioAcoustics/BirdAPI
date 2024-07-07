@@ -1,66 +1,76 @@
 name: Render PlantUML
 
-on: 
+on:
   push:
     paths:
       - '**/*.puml'
-      - '.github/workflows/render-plantuml.yml'
+      - '.github/workflows/render-puml.yml'
   pull_request:
     paths:
       - '**/*.puml'
-      - '.github/workflows/render-plantuml.yml'
+      - '.github/workflows/render-puml.yml'
 
 jobs:
   render:
     runs-on: ubuntu-latest
 
     env:
-      OUTPUT_DIR: "documentation/puml_rendered"
+      OUTPUT_DIR: documentation/puml_rendered
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Start PlantUML Server
-        run: |
-          docker run -d --name plantuml-server -p 8080:8080 plantuml/plantuml-server:jetty
+    - name: Start PlantUML Server
+      run: |
+        docker run -d --name plantuml-server -p 8080:8080 plantuml/plantuml-server:jetty
 
-      - name: Render changed PUML files to SVG
-        run: |
-          #!/bin/bash
-  
-          set -e
-  
-          target=${{ env.OUTPUT_DIR }}
-          mkdir -p $target
-          base_commit=$(git log -n 1 --pretty=format:%h)
-          find . -type f -name '*.puml' | while read f
-          do
-              hash="$( git log -n 1 --pretty=format:%h -- ${f})"
-              d=$(dirname $f)
-              if [ "$base_commit" == "$hash" ] ; then
-                  echo "$f changed in this commit - regenerating"
-                  mkdir -p $target/$d
-                  destfile=${f%%.puml}.svg
-                  cat ${f} | curl --silent --show-error --fail -H "Content-Type: text/plain" --data-binary @- http://localhost:8080/svg/ --output "${target}/${destfile}"
-              else
-                  echo "$f not changed in this commit - no need to generate"
-              fi
-          done
-  
-      - name: Configure git
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-  
-      - name: Commit and push changes
-        run: |
-          git add ${{ env.OUTPUT_DIR }}
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Rendered SVGs from PUML files"
-            git push
+    - name: Wait for PlantUML Server to be ready
+      run: |
+        for i in {1..30}; do
+          if curl --silent --fail http://localhost:8080/ &> /dev/null; then
+            echo "PlantUML server is up and running"
+            break
           fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          echo "Waiting for PlantUML server..."
+          sleep 2
+        done
+
+    - name: Render changed PUML files to SVG
+      run: |
+        #!/bin/bash
+
+        set -e
+
+        target=${{ env.OUTPUT_DIR }}
+        mkdir -p $target
+        base_commit=$(git log -n 1 --pretty=format:%h)
+        find . -type f -name '*.puml' | while read f
+        do
+            hash="$( git log -n 1 --pretty=format:%h -- ${f})"
+            d=$(dirname $f)
+            if [ "$base_commit" == "$hash" ] ; then
+                echo "$f changed in this commit - regenerating"
+                mkdir -p $target/$d
+                destfile=$(basename "${f%%.puml}.svg")
+                cat ${f} | curl --silent --show-error --fail -H "Content-Type: text/plain" --data-binary @- http://localhost:8080/svg/ --output "${target}/${d}/${destfile}"
+            else
+                echo "$f not changed in this commit - no need to generate"
+            fi
+        done
+
+    - name: Configure git
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+    - name: Commit and push changes
+      run: |
+        git add ${{ env.OUTPUT_DIR }}
+        if git diff --cached --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Rendered SVGs from PUML files"
+          git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
