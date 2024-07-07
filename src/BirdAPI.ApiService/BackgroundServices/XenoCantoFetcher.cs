@@ -4,8 +4,8 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using BirdAPI.ApiService.Commands;
 using BirdAPI.ApiService.Database.Models;
+using BirdAPI.Data.Repositories;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,16 +19,20 @@ namespace BirdAPI.ApiService.BackgroundServices
         private const string ProgressFilePath = "fetchProgress.json";
         private readonly FetchProgress _progress;
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IXenoCantoEntriyRepository _xenoCantoEntryRepository;
+
 
         public XenoCantoFetcher(
             IHttpClientFactory httpClientFactory, 
             IHostApplicationLifetime hostApplicationLifetime,
-            IServiceScopeFactory serviceScopeFactory)
+            IServiceScopeFactory serviceScopeFactory,
+            IXenoCantoEntriyRepository xenoCantoEntryRepository)
         {
             _httpClientFactory = httpClientFactory;
+            _serviceScopeFactory = serviceScopeFactory;
+            _xenoCantoEntryRepository = xenoCantoEntryRepository; 
             _progress = LoadProgress();
             hostApplicationLifetime.ApplicationStopping.Register(OnApplicationStopping);
-            _serviceScopeFactory = serviceScopeFactory;
         }
 
 protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -65,9 +69,7 @@ protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 
                         using (var scope = _serviceScopeFactory.CreateScope())
                         {
-                            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-                            var command = new AddXenoCantoItemCommand { XenoCantoEntries = xenoCantoResponse.recordings };
-                            await mediator.Send(command);
+                            await _xenoCantoEntryRepository.AddXenoCantoEntriesRangeAsync(xenoCantoResponse.recordings, stoppingToken);
                         }
                     }
 
