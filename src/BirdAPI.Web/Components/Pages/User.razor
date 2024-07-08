@@ -5,17 +5,55 @@
 
 <h1>Hello!</h1>
 
-This is  just an example for the future.
+@if (!string.IsNullOrEmpty(saveMessage))
+    {
+        <p>@saveMessage</p>
+    }
 
 <input @bind="username" placeholder="Enter your name" />
-<button class="btn btn-primary" @onclick="CreateUser">Submit</button>
+<button class="btn btn-primary" @onclick="CreateUserAsync">Submit</button>
 
 @code {
     string username;
+    string saveMessage;
 
-    async Task CreateUser()
+    async Task CreateUserAsync()
     {
-        //var command = new AddUserCommand{Name = username};
-        //await Http.PostAsJsonAsync("users/create", command);
+        if (!string.IsNullOrEmpty(username))
+        {
+            try
+            {
+                var response = await Http.PostAsJsonAsync("/users/create", username);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var userId = await response.Content.ReadFromJsonAsync<Guid>();
+                    Console.WriteLine($"Erstellte Benutzer-ID: {userId}");
+                    saveMessage = "User erfolgreich gespeichert.";
+                    username = string.Empty; // Clear the username field
+                    StateHasChanged();
+                    // Navigate to another page if needed
+                    // NavigationManager.NavigateTo("/user/success");
+                }
+                else
+                {
+                    saveMessage = "Fehler beim Erstellen des Benutzers.";
+                    Console.WriteLine("Fehler beim Erstellen des Benutzers");
+                    StateHasChanged();
+                }
+            }
+            catch (Exception ex)
+            {
+                saveMessage = "Fehler beim Speichern des Benutzers.";
+                Console.WriteLine($"Fehler beim Erstellen des Benutzers: {ex.Message}");
+                StateHasChanged();
+            }
+        }
+        else
+        {
+            saveMessage = "Benutzername darf nicht leer sein.";
+            Console.WriteLine($"Benutzername darf nicht leer sein.");
+            StateHasChanged();
+        }
     }
 }

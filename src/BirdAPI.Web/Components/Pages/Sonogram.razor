@@ -1,45 +1,108 @@
 @page "/sonogram"
 @inject HttpClient Http
 @using System.Drawing
+@inject IJSRuntime JSRuntime
 
 <h3>Sonogram</h3>
 @*bad code right now, change ASAP, only for testing+example*@
 
-@if (string.IsNullOrEmpty(imageUrl))
-{
+@if (string.IsNullOrEmpty(imageUrl)){
     <p>Loading...</p>
-}
-else
-{
+}else{
     <div id="sonogramContainer" style="position: relative;">
         <img id="sonogramImage" src="@imageUrl" style="max-width: 100%; max-height: 100vh;" />
         <canvas id="drawingCanvas" style="position: absolute; top: 0; left: 0;"></canvas>
     </div>
 
     <button @onclick="SaveRectangle">Save Rectangle</button>
-    //style has to be changed, TODO
+    @if (!string.IsNullOrEmpty(saveMessage))
+    {
+        <p>@saveMessage</p>
+    }
+    @*style has to be changed, TODO*@
+    @if (!string.IsNullOrEmpty(rectangleData))
+{
+    <p>@rectangleData</p>
 }
+
+<button class="btn btn-primary" @onclick="ShowRectangleData">Zeige Rectangle Daten</button>
+@*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*@
+}
+
 @code {
     string imageUrl;
     string endpointIma;
     string endpointRec;
-    Rectangle rectangle;
+    SimpleRectangle rectangle= new SimpleRectangle();
+    string saveMessage;
+    string rectangleData;
 
-    protected override async Task OnInitializedAsync()
-    {
-        //richtige URL und Methode, TODO
-        //...
+    protected override async Task OnInitializedAsync(){
+        @*richtige URL und Methode, TODO*@
+        @*...*@
         if(!string.IsNullOrEmpty(endpointIma)){
             imageUrl = await Http.GetStringAsync(endpointIma);
-            //only empty during dev phase, will be changed, TODO
+            @*only empty during dev phase, will be changed, TODO*@
         }else{
             imageUrl="//xeno-canto.org/sounds/uploaded/LXKLWEDKEM/wave/XC754598-large.png";
         }
     }
 
-    async Task SaveRectangle()
-    {
-        //var command = new SaveRectangleCommand { Rectangle = rectangle };
-        //await Http.PostAsJsonAsync(endpointRec, command);
+    async Task SaveRectangle(){
+        if (rectangle != null && !string.IsNullOrEmpty(endpointRec)){
+            var command = new SaveRectangleCommand { Rectangle = rectangle };
+            try{
+                await Http.PostAsJsonAsync(endpointRec, command);
+                saveMessage = "Rectangle erfolgreich gespeichert.";
+                StateHasChanged();
+                @*Consider adding code here to handle a successful post (e.g., user feedback)*@
+
+            }
+            catch (Exception ex){
+                @*Handle or log the exception as appropriate*@
+                saveMessage = "Rectangle erfolgreich gespeichert.";
+                Console.WriteLine($"Error posting rectangle: {ex.Message}");
+                StateHasChanged();
+            }
+        }
     }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("initializeCanvas", "drawingCanvas");
+        }
+    }
+    async Task UpdateRectangle(MouseEventArgs e)
+    {
+        rectangle.X = (int)e.ClientX;
+        rectangle.Y = (int)e.ClientY;
+        // Beispielwerte für Width und Height, können angepasst werden
+        rectangle.Width = 100;
+        rectangle.Height = 50;
+
+        await JSRuntime.InvokeVoidAsync("drawRectangle", "drawingCanvas", rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+    }
+    async Task ShowRectangleData()
+    {
+        if (rectangle != null)
+        {
+            rectangleData = $"X: {rectangle.X}, Y: {rectangle.Y}, Breite: {rectangle.Width}, Höhe: {rectangle.Height}";
+            StateHasChanged(); // Aktualisiert das UI, um die neuen Daten anzuzeigen
+        }
+        else
+        {
+            rectangleData = "Keine Rectangle Daten verfügbar.";
+            StateHasChanged();
+        }
+    }
+    class SimpleRectangle{
+        public int X { get; set; } = 10; // Beispielwerte
+        public int Y { get; set; } = 20; // Beispielwerte
+        public int Width { get; set; } = 100; // Beispielwerte
+        public int Height { get; set; } = 50; // Beispielwerte
+    }
+    class SaveRectangleCommand{
+        public SimpleRectangle Rectangle { get; set; }
+    }//Can be deleted later
 }

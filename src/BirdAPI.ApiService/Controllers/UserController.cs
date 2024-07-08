@@ -22,5 +22,4 @@ public class UserController(IUserRepository userRepository) : ControllerBase
         await userRepository.AddUserAsync(user, CancellationToken.None);
         return Ok(user.Id);
     }
-
 }
