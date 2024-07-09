@@ -9,7 +9,7 @@ jobs:
   build:
     name: Build and analyze
     runs-on: windows-latest
-    
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -52,6 +52,6 @@ jobs:
         shell: powershell
         run: |
           cd src
-          ..\ .sonar\scanner\dotnet-sonarscanner begin /k:"BioAcoustics_BirdAPI_65a83636-8536-47d0-8247-bf3a3c92b6f3" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
+          ..\sonar\scanner\dotnet-sonarscanner begin /k:"BioAcoustics_BirdAPI_65a83636-8536-47d0-8247-bf3a3c92b6f3" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
           dotnet build
-          ..\ .sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          ..\sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
