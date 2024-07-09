@@ -1,59 +1,55 @@
 @page "/user"
 @inject HttpClient Http
+@rendermode InteractiveServer
+@using System.Net.Http.Json
 
 <PageTitle>User</PageTitle>
 
 <h1>Hello!</h1>
 
-@if (!string.IsNullOrEmpty(saveMessage))
-    {
         <p>@saveMessage</p>
-    }
+        <button class="btn btn-primary" @onclick="CreateUserAsync">hi</button>
 
 <input @bind="username" placeholder="Enter your name" />
 <button class="btn btn-primary" @onclick="CreateUserAsync">Submit</button>
 
 @code {
     string username;
-    string saveMessage;
-
+    string saveMessage="hi";
     async Task CreateUserAsync()
     {
+        saveMessage="first try";Console.WriteLine($"trying");
+
         if (!string.IsNullOrEmpty(username))
         {
             try
             {
+                saveMessage="trying to create user with name: "+username;
                 var response = await Http.PostAsJsonAsync("/users/create", username);
+                saveMessage="finished post request";
 
                 if (response.IsSuccessStatusCode)
                 {
                     var userId = await response.Content.ReadFromJsonAsync<Guid>();
-                    Console.WriteLine($"Erstellte Benutzer-ID: {userId}");
                     saveMessage = "User erfolgreich gespeichert.";
                     username = string.Empty; // Clear the username field
-                    StateHasChanged();
                     // Navigate to another page if needed
                     // NavigationManager.NavigateTo("/user/success");
                 }
                 else
                 {
                     saveMessage = "Fehler beim Erstellen des Benutzers.";
-                    Console.WriteLine("Fehler beim Erstellen des Benutzers");
-                    StateHasChanged();
                 }
             }
             catch (Exception ex)
             {
-                saveMessage = "Fehler beim Speichern des Benutzers.";
-                Console.WriteLine($"Fehler beim Erstellen des Benutzers: {ex.Message}");
-                StateHasChanged();
+                //saveMessage = "Fehler beim Speichern des Benutzers.";
+                saveMessage = $"Fehler beim Speichern des Benutzers: {ex.Message}";
             }
         }
         else
         {
             saveMessage = "Benutzername darf nicht leer sein.";
-            Console.WriteLine($"Benutzername darf nicht leer sein.");
-            StateHasChanged();
         }
     }
 }
