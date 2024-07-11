@@ -41,6 +41,7 @@ To install the Xeno-Canto Labeling Platform, follow these steps:
 == Usage
 * .NET Aspire Interface: https://localhost:17230/
 * API Documentation: https://localhost:7344/swagger
+* Home page: https://localhost:7073/
 
 == Contact
 For any questions or suggestions, please open an issue or contact us directly.
