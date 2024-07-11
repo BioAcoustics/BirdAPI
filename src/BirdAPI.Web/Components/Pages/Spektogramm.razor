@@ -1,0 +1,69 @@
+@page "/spectograph"
+@inject HttpClient Http
+@rendermode InteractiveServer
+@using System.Drawing
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Spectograph</PageTitle>
+<h3>Spectograph</h3>
+@message
+<canvas @ref="canvasRef" width="800" height="600" style="border:1px solid #000000;"></canvas>
+
+<script>
+    console.log('initi');
+    if(!canvas){
+    let canvas, ctx, isDrawing = false;let startX, startY;
+    }
+    
+
+    function initializeCanvas(canvasRef) {
+        console.log('initializeCanvas');
+        canvas = canvasRef;
+        ctx = canvas.getContext('2d');
+        console.log('initializeCanvas2');
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+    }
+
+    function startDrawing(e) {
+        console.log('initializeCanvas3');
+        isDrawing = true;
+        startX = e.offsetX;
+        startY = e.offsetY;
+    }
+
+    function draw(e) {
+        console.log('initializeCanvas4');
+        if (!isDrawing) return;
+        const rectWidth = e.offsetX - startX;
+        const rectHeight = e.offsetY - startY;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeRect(startX, startY, rectWidth, rectHeight);
+    }
+
+    function stopDrawing() {
+        console.log('initializeCanvas5');
+        isDrawing = false;
+    }
+</script>
+
+@code {
+    private ElementReference canvasRef;
+    private string message = "Loading...";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        Console.WriteLine("OnAfterRenderAsync");
+        try {
+            if (firstRender) {
+                message = "Drawing rectangle..."; StateHasChanged();
+                Console.WriteLine("Drawing rectangle...");
+                await JSRuntime.InvokeVoidAsync("initializeCanvas", canvasRef);
+                message = "Rectangle drawn, yay!"; StateHasChanged();
+                Console.WriteLine("Rectangle drawn, yay!");
+            }
+        } catch (Exception ex) {
+            message = ex.Message; StateHasChanged();
+        }
+    }
+}

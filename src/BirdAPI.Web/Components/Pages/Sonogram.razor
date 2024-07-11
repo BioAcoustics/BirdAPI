@@ -14,27 +14,24 @@
         <img id="sonogramImage" src="@imageUrl" style="max-width: 100%; max-height: 100vh;" />
         <canvas id="drawingCanvas" style="position: absolute; top: 0; left: 0;"></canvas>
     </div>
-
-    <button @onclick="SaveRectangle">Save Rectangle</button>
-    @if (!string.IsNullOrEmpty(saveMessage))
-    {
+}
+    @*<button @onclick="SaveRectangle">Save Rectangle</button>*@
+    @if (!string.IsNullOrEmpty(saveMessage)){
         <p>@saveMessage</p>
     }
     @*style has to be changed, TODO*@
-    @if (!string.IsNullOrEmpty(rectangleData))
-{
-    <p>@rectangleData</p>
-}
+    @if (!string.IsNullOrEmpty(rectangleData)){
+        <p>@rectangleData</p>
+    }
 
-<button class="btn btn-primary" @onclick="ShowRectangleData">Zeige Rectangle Daten</button>
+//<button class="btn btn-primary" @onclick="ShowRectangleData">Zeige Rectangle Daten</button>
 @*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*@
-}
 
 @code {
     string imageUrl;
     string endpointIma;
     string endpointRec;
-    SimpleRectangle rectangle= new SimpleRectangle();
+    //SimpleRectangle rectangle= new SimpleRectangle();
     string saveMessage;
     string rectangleData;
 
@@ -49,7 +46,7 @@
         }
     }
 
-    async Task SaveRectangle(){
+    /*async Task SaveRectangle(){
         if (rectangle != null && !string.IsNullOrEmpty(endpointRec)){
             var command = new SaveRectangleCommand { Rectangle = rectangle };
             try{
@@ -86,13 +83,11 @@
     }
     async Task ShowRectangleData()
     {
-        if (rectangle != null)
-        {
+        if (rectangle != null){
             rectangleData = $"X: {rectangle.X}, Y: {rectangle.Y}, Breite: {rectangle.Width}, Höhe: {rectangle.Height}";
             StateHasChanged(); // Aktualisiert das UI, um die neuen Daten anzuzeigen
         }
-        else
-        {
+        else{
             rectangleData = "Keine Rectangle Daten verfügbar.";
             StateHasChanged();
         }
@@ -105,5 +100,5 @@
     }
     class SaveRectangleCommand{
         public SimpleRectangle Rectangle { get; set; }
-    }//Can be deleted later
+    }//Can be deleted later*/
 }

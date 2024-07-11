@@ -14,8 +14,8 @@
 <button class="btn btn-primary" @onclick="CreateUserAsync">Submit</button>
 
 @code {
-    string username;
-    string saveMessage="hi";
+    string? username;
+    string? saveMessage="hi";
     async Task CreateUserAsync()
     {
         saveMessage="first try";Console.WriteLine($"trying");
@@ -31,7 +31,7 @@
                 if (response.IsSuccessStatusCode)
                 {
                     var userId = await response.Content.ReadFromJsonAsync<Guid>();
-                    saveMessage = "User erfolgreich gespeichert.";
+                    saveMessage = "User erfolgreich gespeichert."+ userId;
                     username = string.Empty; // Clear the username field
                     // Navigate to another page if needed
                     // NavigationManager.NavigateTo("/user/success");
