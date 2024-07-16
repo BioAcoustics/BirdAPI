@@ -8,14 +8,19 @@
 <h3>Spectograph</h3>
 @message
 <canvas @ref="canvasRef" width="800" height="600" style="border:1px solid #000000;"></canvas>
+<input @bind="delenum" placeholder="which one do you want to delete" />
+<button class="btn btn-primary" @onclick="deleter">Save</button>
 
+@*Javascript --> drawing rectangle with mouse events*@
 <script>
     console.log('initi');
-    if(!canvas){
-    let canvas, ctx, isDrawing = false;let startX, startY;
+    let canvas = null, ctx = null, isDrawing = false; let startX, startY, rectWidth, rectHeight;
+    if (typeof rectangles === 'undefined') {
+        console.log('initi2');
+        var rectangles = [];
+        console.log(rectangles);
     }
     
-
     function initializeCanvas(canvasRef) {
         console.log('initializeCanvas');
         canvas = canvasRef;
@@ -27,28 +32,49 @@
     }
 
     function startDrawing(e) {
-        console.log('initializeCanvas3');
+        console.log('starting');
         isDrawing = true;
         startX = e.offsetX;
         startY = e.offsetY;
     }
 
     function draw(e) {
-        console.log('initializeCanvas4');
+        console.log('drawing');
         if (!isDrawing) return;
-        const rectWidth = e.offsetX - startX;
-        const rectHeight = e.offsetY - startY;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        redrawCanvas();
+        rectWidth = e.offsetX - startX;
+        rectHeight = e.offsetY - startY;
         ctx.strokeRect(startX, startY, rectWidth, rectHeight);
     }
 
     function stopDrawing() {
-        console.log('initializeCanvas5');
+        console.log('stopping');
+        saveRectangled();
+        console.log('stopped');
         isDrawing = false;
+    }
+    function saveRectangled() {
+        console.log('saved');
+        rectangles.push({ x: startX, y: startY, width: rectWidth, height: rectHeight });
+        console.log(rectangles);
+        redrawCanvas();
+    }
+    function redrawCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+        console.log('redrawen');
+        rectangles.forEach(rect => {
+            ctx.strokeRect(rect.x, rect.y, rect.width, rect.height); // Redraw each rectangle
+        });
+    }
+    function deleter(delenum) {
+        console.log('delete');
+        rectangles.splice(delenum-1, 1);
+        redrawCanvas();
     }
 </script>
 
 @code {
+    private int? delenum;
     private ElementReference canvasRef;
     private string message = "Loading...";
 
@@ -62,7 +88,15 @@
                 message = "Rectangle drawn, yay!"; StateHasChanged();
                 Console.WriteLine("Rectangle drawn, yay!");
             }
+            
         } catch (Exception ex) {
+            message = ex.Message; StateHasChanged();
+        }
+    }
+     protected async Task deleter(){
+        try{
+            await JSRuntime.InvokeVoidAsync("deleter", delenum);
+        }catch(Exception ex){
             message = ex.Message; StateHasChanged();
         }
     }
