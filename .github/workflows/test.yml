@@ -39,7 +39,7 @@ jobs:
     
     - name: Test
       run: |
-        dotnet test ${{ env.PROJECT }}/.. \
+        dotnet test ${{ env.PROJECT }} \
         --verbosity normal \
         --configuration Release \
         --logger "trx;LogFileName=${{ github.workspace }}/test-results/unit-tests.trx" \
