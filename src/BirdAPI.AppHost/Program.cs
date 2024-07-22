@@ -6,8 +6,10 @@ var builder = DistributedApplication.CreateBuilder(args);
 var psqlUsername = builder.AddParameter("psqluser", secret: true);
 var psqlPassword = builder.AddParameter("psqlpassword", secret: true);
 
+
 var postgres = builder
-    .AddPostgres("postgres", userName: psqlUsername, password: psqlPassword)
+    //.AddPostgres("postgres", userName: psqlUsername, password: psqlPassword)
+    .AddPostgres("postgres")
     .WithPgAdmin() // Add pgAdmin to the PostgreSQL instance
     .WithDataVolume() // Persistant data between restarts
     .AddDatabase("birdapi");

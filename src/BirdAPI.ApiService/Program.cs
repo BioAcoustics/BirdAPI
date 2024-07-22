@@ -1,5 +1,6 @@
 using BirdAPI.ApiService.BackgroundServices;
 using BirdAPI.ApiService.Database;
+using BirdAPI.Data.Repositories;
 
 // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 // ┃  Application Initialization         ┃
@@ -22,15 +23,6 @@ builder.Services.AddHostedService<XenoCantoFetcher>();
 var Configuration = builder.Configuration;
 
 var app = builder.Build();
-
-// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-// ┃  Database Migration                 ┃
-// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-//using (var scope = app.Services.CreateScope())
-//{
-//    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-//    dbContext.Database.Migrate(); // Wendet ausstehende Migrationen an oder erstellt die Datenbank
-//}
 
 // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 // ┃  Middleware Configuration           ┃

@@ -5,12 +5,12 @@ namespace BirdAPI.ApiService.Controllers;
 
 [ApiController]
 [Route("xc")]
-public class XenoCantoEntryController(IXenoCantoEntriyRepository mediator) : ControllerBase
+public class XenoCantoEntryController(IXenoCantoEntryRepository repository) : ControllerBase
 {
     [HttpGet("{id}")]
     public async Task<IActionResult> GetXenoCantoEntry(string id)
     {
-        var entry = await mediator.GetXenoCantoEntryByIdAsync(id, CancellationToken.None);
+        var entry = await repository.GetXenoCantoEntryByIdAsync(id, CancellationToken.None);
         return Ok(entry);
     }
 

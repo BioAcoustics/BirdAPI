@@ -2,7 +2,6 @@
 using BirdAPI.ApiService.Database.Models;
 using BirdAPI.Data.Repositories;
 
-
 namespace BirdAPI.ApiService.BackgroundServices
 {
     public class XenoCantoFetcher : BackgroundService
@@ -12,78 +11,96 @@ namespace BirdAPI.ApiService.BackgroundServices
         private const string ProgressFilePath = "fetchProgress.json";
         private readonly FetchProgress _progress;
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private readonly IXenoCantoEntriyRepository _xenoCantoEntryRepository;
-
 
         public XenoCantoFetcher(
             IHttpClientFactory httpClientFactory, 
             IHostApplicationLifetime hostApplicationLifetime,
-            IServiceScopeFactory serviceScopeFactory,
-            IXenoCantoEntriyRepository xenoCantoEntryRepository)
+            IServiceScopeFactory serviceScopeFactory)
         {
             _httpClientFactory = httpClientFactory;
             _serviceScopeFactory = serviceScopeFactory;
-            _xenoCantoEntryRepository = xenoCantoEntryRepository; 
             _progress = LoadProgress();
             hostApplicationLifetime.ApplicationStopping.Register(OnApplicationStopping);
         }
 
-protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-{
-    using var periodicTimer = new PeriodicTimer(TimeSpan.FromMinutes(10));
-    _ = PeriodicSaveAsync(periodicTimer, stoppingToken);
-
-    char[] qualityRatings = { 'a', 'b', 'c', 'd', 'e' };
-
-    while (!stoppingToken.IsCancellationRequested)
-    {
-        foreach (var quality in qualityRatings)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            if (stoppingToken.IsCancellationRequested) break;
+            using var periodicTimer = new PeriodicTimer(TimeSpan.FromMinutes(10));
+            _ = PeriodicSaveAsync(periodicTimer, cancellationToken);
 
-            var currentPage = quality == _progress.CurrentQuality ? _progress.CurrentPage : 1;
-            var numPages = int.MaxValue;
+            char[] qualityRatings = { 'a', 'b', 'c', 'd', 'e' };
 
-            while (!stoppingToken.IsCancellationRequested && currentPage <= numPages)
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                foreach (var quality in qualityRatings)
+                {
+                    if (cancellationToken.IsCancellationRequested) break;
+
+                    var currentPage = quality == _progress.CurrentQuality ? _progress.CurrentPage : 1;
+                    var numPages = int.MaxValue;
+
+                    await FetchQualityPagesAsync(quality, currentPage, numPages, cancellationToken);
+                }
+
+                // Reset progress to start from the beginning
+                ResetProgress();
+            }
+        }
+
+        private async Task FetchQualityPagesAsync(char quality, int currentPage, int numPages, CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested && currentPage <= numPages)
             {
                 try
                 {
-                    var httpClient = _httpClientFactory.CreateClient();
-                    var response = await httpClient.GetAsync($"{BaseUrl}{quality}&page={currentPage}", stoppingToken);
-                    response.EnsureSuccessStatusCode();
-
-                    var content = await response.Content.ReadAsStringAsync(stoppingToken);
-                    var xenoCantoResponse = JsonSerializer.Deserialize<XenoCantoResponse>(content);
+                    var xenoCantoResponse = await FetchPageAsync(quality, currentPage, cancellationToken);
 
                     if (xenoCantoResponse != null)
                     {
                         numPages = xenoCantoResponse.numPages;
                         Console.WriteLine($"Fetched page {currentPage} of {numPages} for quality {quality}");
-
-                        using (var scope = _serviceScopeFactory.CreateScope())
-                        {
-                            await _xenoCantoEntryRepository.AddXenoCantoEntriesRangeAsync(xenoCantoResponse.recordings, stoppingToken);
-                        }
+                        await SaveEntriesAsync(xenoCantoResponse.recordings, cancellationToken);
                     }
 
-                    currentPage++;
-                    _progress.CurrentQuality = quality;
-                    _progress.CurrentPage = currentPage;
+                    UpdateProgress(quality, ++currentPage);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"An error occurred: {ex.Message}");
                 }
 
-                await Task.Delay(1000, stoppingToken); // Delay for 1 second
+                await Task.Delay(1000, cancellationToken); // Delay for 1 second
             }
         }
 
-        // Reset progress to start from the beginning
-        _progress.CurrentQuality = 'a';
-        _progress.CurrentPage = 1;
-    }
-}
+        private async Task<XenoCantoResponse> FetchPageAsync(char quality, int currentPage, CancellationToken cancellationToken)
+        {
+            var httpClient = _httpClientFactory.CreateClient();
+            var response = await httpClient.GetAsync($"{BaseUrl}{quality}&page={currentPage}", cancellationToken);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync(cancellationToken);
+            return JsonSerializer.Deserialize<XenoCantoResponse>(content);
+        }
+
+        private async Task SaveEntriesAsync(IEnumerable<XenoCantoEntry> recordings, CancellationToken cancellationToken)
+        {
+            using var scope = _serviceScopeFactory.CreateScope();
+            var xenoCantoEntryRepository = scope.ServiceProvider.GetRequiredService<IXenoCantoEntryRepository>();
+            await xenoCantoEntryRepository.AddOrUpdateXenoCantoEntryRangeAsync(recordings, cancellationToken);
+        }
+
+        private void UpdateProgress(char quality, int currentPage)
+        {
+            _progress.CurrentQuality = quality;
+            _progress.CurrentPage = currentPage;
+        }
+
+        private void ResetProgress()
+        {
+            _progress.CurrentQuality = 'a';
+            _progress.CurrentPage = 1;
+        }
 
         private FetchProgress LoadProgress()
         {
@@ -107,7 +124,6 @@ protected override async Task ExecuteAsync(CancellationToken stoppingToken)
             SaveProgress();
         }
 
-        // Periodically save the progress to a file
         private async Task PeriodicSaveAsync(PeriodicTimer timer, CancellationToken stoppingToken)
         {
             try
@@ -129,4 +145,11 @@ protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         public char CurrentQuality { get; set; }
         public int CurrentPage { get; set; }
     }
+
+    public class XenoCantoResponse
+    {
+        public int numPages { get; set; }
+        public List<XenoCantoEntry> recordings { get; set; }
+    }
+    
 }

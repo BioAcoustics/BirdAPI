@@ -3,7 +3,7 @@ using BirdAPI.ApiService.Database.Models;
 
 namespace BirdAPI.Data.Repositories;
 
-public interface IXenoCantoEntriyRepository
+public interface IXenoCantoEntryRepository
 {
     Task AddXenoCantoEntryAsync(XenoCantoEntry entry, CancellationToken cancellationToken);
     Task AddXenoCantoEntriesRangeAsync(IEnumerable<XenoCantoEntry> entries, CancellationToken cancellationToken);
@@ -12,7 +12,7 @@ public interface IXenoCantoEntriyRepository
     Task<XenoCantoEntry> DeleteXenoCantoEntryByIdAsync(string id, CancellationToken cancellationToken);
 }
 
-public class XenoCantoEntriyRepository(ApplicationDbContext context)
+public class XenoCantoEntryRepository(ApplicationDbContext context) : IXenoCantoEntryRepository
 {
     public async Task AddXenoCantoEntryAsync(XenoCantoEntry entry, CancellationToken cancellationToken)
     {
