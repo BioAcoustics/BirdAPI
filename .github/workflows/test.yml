@@ -48,7 +48,7 @@ jobs:
         -p:CoverletOutput=${{ github.workspace }}/test-results/cover.xml
     
     - name: Test Report
-      uses: bibipkins/dotnet-test-reporter@v1.4.0
+      uses: bibipkins/dotnet-test-reporter@v1.4.1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         comment-title: 'Unit Test Results'
