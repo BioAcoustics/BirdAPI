@@ -1,0 +1,49 @@
+name: Test & Report
+
+on: 
+  push:
+    paths: 
+      - src/**
+  pull_request:
+    paths: 
+      - src/**
+  workflow_dispatch:  
+
+env:
+  PROJECT: src
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.PROJECT }}
+    
+    - name: Build
+      run: dotnet build ${{ env.PROJECT }} --no-restore
+    
+    - name: Test
+      run: |
+        dotnet test ${{ env.PROJECT }}/.. \
+        --verbosity normal \
+        --configuration Release \
+        --logger "trx;LogFileName=${{ github.workspace }}/test-results/unit-tests.trx" \
+        -p:CollectCoverage=true \
+        -p:CoverletOutputFormat="opencover" \
+        -p:CoverletOutput=${{ github.workspace }}/test-results/cover.xml
+    
+    - name: Test Report
+      uses: bibipkins/dotnet-test-reporter@v1.4.0
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        comment-title: 'Unit Test Results'
+        results-path: ${{ github.workspace }}/test-results/unit-tests.trx
+        #coverage-path: ${{ github.workspace }}/test-results/cover.xml
