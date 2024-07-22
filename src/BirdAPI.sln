@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BirdAPI.Data", "BirdAPI.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BirdAPI.MigrationService", "BirdAPI.MigrationService\BirdAPI.MigrationService.csproj", "{7D571D2B-CA30-44BA-AFA0-562446524F74}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BirdAPI.Tests", "BirdAPI.Tests\BirdAPI.Tests.csproj", "{B8B81FAE-9CB0-4D59-A0AD-B9249330A83A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{7D571D2B-CA30-44BA-AFA0-562446524F74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D571D2B-CA30-44BA-AFA0-562446524F74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D571D2B-CA30-44BA-AFA0-562446524F74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8B81FAE-9CB0-4D59-A0AD-B9249330A83A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B81FAE-9CB0-4D59-A0AD-B9249330A83A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8B81FAE-9CB0-4D59-A0AD-B9249330A83A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8B81FAE-9CB0-4D59-A0AD-B9249330A83A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
