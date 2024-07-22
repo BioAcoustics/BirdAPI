@@ -53,4 +53,4 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         comment-title: 'Unit Test Results'
         results-path: ${{ github.workspace }}/test-results/unit-tests.trx
-        #coverage-path: ${{ github.workspace }}/test-results/cover.xml
+        coverage-path: ${{ github.workspace }}/test-results/cover.xml
