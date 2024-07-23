@@ -23,23 +23,23 @@ namespace BirdAPI.ApiService.BackgroundServices
             hostApplicationLifetime.ApplicationStopping.Register(OnApplicationStopping);
         }
 
-        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             using var periodicTimer = new PeriodicTimer(TimeSpan.FromMinutes(10));
-            _ = PeriodicSaveAsync(periodicTimer, cancellationToken);
+            _ = PeriodicSaveAsync(periodicTimer, stoppingToken);
 
             char[] qualityRatings = { 'a', 'b', 'c', 'd', 'e' };
 
-            while (!cancellationToken.IsCancellationRequested)
+            while (!stoppingToken.IsCancellationRequested)
             {
                 foreach (var quality in qualityRatings)
                 {
-                    if (cancellationToken.IsCancellationRequested) break;
+                    if (stoppingToken.IsCancellationRequested) break;
 
                     var currentPage = quality == _progress.CurrentQuality ? _progress.CurrentPage : 1;
                     var numPages = int.MaxValue;
 
-                    await FetchQualityPagesAsync(quality, currentPage, numPages, cancellationToken);
+                    await FetchQualityPagesAsync(quality, currentPage, numPages, stoppingToken);
                 }
 
                 // Reset progress to start from the beginning

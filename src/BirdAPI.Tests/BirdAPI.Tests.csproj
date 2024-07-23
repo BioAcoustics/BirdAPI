@@ -17,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BirdAPI.ApiService\BirdAPI.ApiService.csproj" />
     <ProjectReference Include="..\BirdAPI.AppHost\BirdAPI.AppHost.csproj" />
+    <ProjectReference Include="..\BirdAPI.Data\BirdAPI.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
