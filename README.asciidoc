@@ -1,3 +1,41 @@
+//***********************************************
+//***************** SETTINGS ********************
+//***********************************************
+
+:doctype: book
+:use-link-attrs:
+:linkattrs:
+
+// -- Table of Contents
+
+:toc:
+:toclevels: 3
+:toc-title: 
+:toc-placement!:
+
+// -- Icons
+
+ifdef::env-github[]
+
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
+
+ifdef::env-github[]
+:status:
+:outfilesuffix: .asciidoc
+endif::[]
+
+:sectanchors:
+:numbered:
+
+
+//************* END OF SETTINGS ******************
+//************************************************
+
 // Header
 ++++
 <div align="center">
@@ -12,6 +50,8 @@ image:https://sonar.openhdfpv.org/api/project_badges/quality_gate?project=BioAco
 </div>
 ++++
 
+// Table of Contents
+toc::[]
 
 == Overview
 The Xeno-Canto Labeling Platform aims to enhance the Xeno-Canto database by providing a public platform where users can collaboratively label recordings using a Wikipedia-like approach. These user-generated labels will be displayed in spectrograms for precise localization of animal sounds and made accessible via an API for researchers and developers.
