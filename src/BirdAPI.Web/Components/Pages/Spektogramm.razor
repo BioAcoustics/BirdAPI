@@ -4,6 +4,12 @@
 @using System.Drawing
 @inject IJSRuntime JSRuntime
 
+@*  <summary>
+/// Diese Blazor-Seite stellt einen "Spectograph" dar, der es dem Benutzer ermöglicht, Rechtecke auf einem Canvas zu zeichnen und zu löschen.
+/// </summary>
+/// <remarks>
+/// Die Seite verwendet JavaScript-Interoperabilität, um die Zeichenfunktionen im Browser zu implementieren.
+    </remarks>*@
 <PageTitle>Spectograph</PageTitle>
 <h3>Spectograph</h3>
 @message
@@ -20,7 +26,10 @@
         var rectangles = [];
         console.log(rectangles);
     }
-    
+/// <summary>
+/// Initialisiert das Zeichenfeld und fügt Ereignis-Listener für Mausaktionen hinzu.
+/// </summary>
+/// <param name="canvasRef">Referenz auf das HTML-Canvas-Element.</param>
     function initializeCanvas(canvasRef) {
         console.log('initializeCanvas');
         canvas = canvasRef;
@@ -30,14 +39,20 @@
         canvas.addEventListener('mousemove', draw);
         canvas.addEventListener('mouseup', stopDrawing);
     }
-
+/// <summary>
+/// Beginnt das Zeichnen eines Rechtecks, wenn die Maustaste gedrückt wird.
+/// </summary>
+/// <param name="e">Das Mausevent.</param>
     function startDrawing(e) {
         console.log('starting');
         isDrawing = true;
         startX = e.offsetX;
         startY = e.offsetY;
     }
-
+/// <summary>
+/// Zeichnet das Rechteck, während die Maus bewegt wird.
+/// </summary>
+/// <param name="e">Das Mausevent.</param>
     function draw(e) {
         console.log('drawing');
         if (!isDrawing) return;
@@ -46,19 +61,27 @@
         rectHeight = e.offsetY - startY;
         ctx.strokeRect(startX, startY, rectWidth, rectHeight);
     }
-
+/// <summary>
+/// Beendet das Zeichnen, wenn die Maustaste losgelassen wird, und speichert das gezeichnete Rechteck.
+/// </summary>
     function stopDrawing() {
         console.log('stopping');
         saveRectangled();
         console.log('stopped');
         isDrawing = false;
     }
+/// <summary>
+/// Speichert das gezeichnete Rechteck in einem Array.
+/// </summary>
     function saveRectangled() {
         console.log('saved');
         rectangles.push({ x: startX, y: startY, width: rectWidth, height: rectHeight });
         console.log(rectangles);
         redrawCanvas();
     }
+/// <summary>
+/// Löscht das Zeichenfeld und zeichnet alle gespeicherten Rechtecke neu.
+/// </summary>
     function redrawCanvas() {
         ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
         console.log('redrawen');
@@ -66,6 +89,10 @@
             ctx.strokeRect(rect.x, rect.y, rect.width, rect.height); // Redraw each rectangle
         });
     }
+/// <summary>
+/// Löscht ein spezifisches Rechteck aus dem Array und zeichnet das Zeichenfeld neu.
+/// </summary>
+/// <param name="delenum">Der Index des zu löschenden Rechtecks (nullbasiert).</param>
     function deleter(delenum) {
         console.log('delete');
         rectangles.splice(delenum-1, 1);
@@ -78,6 +105,10 @@
     private ElementReference canvasRef;
     private string message = "Loading...";
 
+/// <summary>
+/// Wird aufgerufen, nachdem die Seite gerendert wurde. Initialisiert das Zeichenfeld und fängt mögliche Ausnahmen ab.
+/// </summary>
+/// <param name="firstRender">Gibt an, ob es sich um das erste Rendern handelt.</param>
     protected override async Task OnAfterRenderAsync(bool firstRender) {
         Console.WriteLine("OnAfterRenderAsync");
         try {
@@ -93,6 +124,9 @@
             message = ex.Message; StateHasChanged();
         }
     }
+/// <summary>
+/// Löscht ein spezifisches Rechteck auf dem Zeichenfeld.
+/// </summary>
      protected async Task deleter(){
         try{
             await JSRuntime.InvokeVoidAsync("deleter", delenum);
