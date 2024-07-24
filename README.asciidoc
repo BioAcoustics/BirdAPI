@@ -76,6 +76,7 @@ To install the Xeno-Canto Labeling Platform, follow these steps:
 . change directory into root and then into `src`
 . Install .NET Aspire, by running `dotnet workload update` and `dotnet workload install aspire`
 . Install dependencies by running `dotnet restore`
+. Make sure, Docker is running
 . Run the application by changing into the `BirdAPI.AppHost` directory and running `dotnet run`
 
 == Usage
