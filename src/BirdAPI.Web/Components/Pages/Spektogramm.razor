@@ -13,9 +13,16 @@
 <PageTitle>Spectograph</PageTitle>
 <h3>Spectograph</h3>
 @message
-<canvas @ref="canvasRef" width="800" height="600" style="border:1px solid #000000;"></canvas>
-<input @bind="delenum" placeholder="which one do you want to delete" />
-<button class="btn btn-primary" @onclick="deleter">Save</button>
+@* <summary>
+/// elemente für das zeichnen von rechtecken auf dem canvas/picture
+*@
+<div style="position: relative; width: 800px; height: 600px;">
+    <img src="//xeno-canto.org/sounds/uploaded/LXKLWEDKEM/wave/XC754598-large.png" style="position: absolute; top: 0; left: 0; width: 800px; height: 600px; opacity: 0.5;" />
+    <canvas @ref="canvasRef" width="800" height="600" style="border:1px solid #000000; position: absolute; top: 0; left: 0;"></canvas>
+</div>
+<input @bind="delenum" placeholder="which delete // num" />
+<button class="btn btn-primary" @onclick="deleter">delete</button>
+<button class="btn btn-primary" @onclick="">Save (not working)</button>
 
 @*Javascript --> drawing rectangle with mouse events*@
 <script>

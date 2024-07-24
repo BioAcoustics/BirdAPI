@@ -37,13 +37,16 @@
         {
             try
             {
-                saveMessage="trying to create user with name: "+username;
+                saveMessage="trying to create user with name: "+username;Console.WriteLine($"trying to creat");
                 var response = await Http.PostAsJsonAsync("/users/create", username);
-                saveMessage="finished post request";
+                Console.WriteLine($"trying to create user with name: {username}");
+                saveMessage="finished request";
 
                 if (response.IsSuccessStatusCode)
                 {
+                    Console.WriteLine($"trying uzgio");
                     var userId = await response.Content.ReadFromJsonAsync<Guid>();
+                    Console.WriteLine($"trying to");
                     saveMessage = "User erfolgreich gespeichert."+ userId;
                     username = string.Empty; // Clear the username field
                     // Navigate to another page if needed
