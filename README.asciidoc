@@ -46,6 +46,9 @@ endif::[]
 
 image:https://sonar.openhdfpv.org/api/project_badges/quality_gate?project=BioAcoustics_BirdAPI_65a83636-8536-47d0-8247-bf3a3c92b6f3&token=sqb_ab33f658344f5d4e20e9bfd4e8e777371588ea76[Sonarqube, link="https://sonar.openhdfpv.org/dashboard?id=BioAcoustics_BirdAPI_65a83636-8536-47d0-8247-bf3a3c92b6f3"]
 
+image:https://img.shields.io/badge/docs-BirdAPI-blue[Documentation, link=https://bioacoustics.github.io/BirdAPI]
+
+
 ++++
 </div>
 ++++
