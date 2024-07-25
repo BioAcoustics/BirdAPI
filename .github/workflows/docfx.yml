@@ -12,6 +12,9 @@ permissions:
   pages: write
   id-token: write
 
+env:
+  PROJECT: src
+
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
@@ -32,6 +35,14 @@ jobs:
       with:
         dotnet-version: 8.x
 
+    - name: Install dependencies
+      run: |
+        dotnet workload update
+        dotnet workload install aspire
+    
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.PROJECT }}
+    
     - run: dotnet tool update -g docfx
     - run: docfx docfx.json
 
