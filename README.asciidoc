@@ -90,6 +90,13 @@ To install the Xeno-Canto Labeling Platform, follow these steps:
 == Contact
 For any questions or suggestions, please open an issue or contact us directly.
 
+== Contributing
+*Thanks to all the people who already contributed!*
+ 
+[#img-contributors,link=https://github.com/BioAcoustics/BirdAPI/graphs/contributors]
+image::https://contrib.rocks/image?repo=BioAcoustics/BirdAPI[Contributors]
+
+
 ---
 
 Thank you for your interest in the Xeno-Canto Labeling Platform! Together, we can enhance the richness and accuracy of animal sound recordings for the benefit of researchers and developers worldwide.
